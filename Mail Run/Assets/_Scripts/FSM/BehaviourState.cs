@@ -10,10 +10,10 @@ namespace GGD
         [SerializeField] protected UnityEvent _entered;
         [SerializeField] protected UnityEvent _exited;
 
-        protected NPC _owner;
+        private StateController _owner;
         protected bool _isInitialized = false;
 
-        public NPC Owner => _owner;
+        public StateController Owner => _owner;
         public bool IsInitialized => _isInitialized;
 
         public void Enter()
@@ -28,7 +28,7 @@ namespace GGD
             _exited?.Invoke();
         }
 
-        public virtual void Initialize(NPC owner)
+        public virtual void Initialize(StateController owner)
         {
             _owner = owner;
         }

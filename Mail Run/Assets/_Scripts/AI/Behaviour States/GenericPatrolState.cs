@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GGD
 {
-    public class GenericPatrolState : BehaviourState
+    public class GenericPatrolState : NPCBehaviourState
     {
         public enum PatrolMethod
         {
@@ -21,13 +21,13 @@ namespace GGD
 
         protected override void OnEnter()
         {
-            _owner.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
+            _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
         }
 
         public override void ExecuteUpdate(float deltaTime)
         {
             // TODO: Use a variable for "effective" stopping distance
-            if (_owner.NavMeshAgent.remainingDistance < 1f)
+            if (_NPC.NavMeshAgent.remainingDistance < 1f)
             {
                 //switch (_patrolMethod)
                 //{
@@ -45,11 +45,11 @@ namespace GGD
                 {
                     _currentWaypointIndex = 0;
                 }
-                _owner.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
+                _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             }
             if (Random.value <= 0.001f)
             {
-                Owner.SetState(_idleState);
+                _NPC.SetState(_idleState);
             }
         }
 
