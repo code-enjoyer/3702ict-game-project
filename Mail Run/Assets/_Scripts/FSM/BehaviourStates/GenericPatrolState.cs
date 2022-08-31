@@ -17,15 +17,24 @@ namespace GGD
         [SerializeField] private PatrolMethod _patrolMethod = PatrolMethod.PingPong;
         [SerializeField] private Transform[] _waypoints = new Transform[1];
         [SerializeField] private BehaviourState _idleState;
+        [SerializeField] private BehaviourState _harassState;
+        [SerializeField] private float los = 3;
+        [SerializeField] private float coolDown = 3f;
+        private float timer;
         private int _currentWaypointIndex = 0;
+        GameObject player;
 
         protected override void OnEnter()
         {
             _owner.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
+            player = GameManager.Instance.Player;
+            timer = coolDown;
         }
 
         public override void ExecuteUpdate(float deltaTime)
         {
+            player = GameManager.Instance.Player;
+            timer -= deltaTime;
             // TODO: Use a variable for "effective" stopping distance
             if (_owner.NavMeshAgent.remainingDistance < 1f)
             {
@@ -51,6 +60,11 @@ namespace GGD
             {
                 Owner.SetState(_idleState);
             }
+
+            if(Vector3.Distance(transform.position, player.transform.position) <= los && timer <= 0f)
+            {
+                Owner.SetState(_harassState);
+            }
         }
 
         private void OnValidate()
@@ -64,5 +78,12 @@ namespace GGD
                 Debug.LogWarning("[GenericPatrolState] There are null transforms in the waypoints array!", gameObject);
             }
         }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, los);
+        }
+
     }
 }
