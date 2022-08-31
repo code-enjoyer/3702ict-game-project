@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GGD
 {
+    /// <summary>
+    /// Base class for controlling and executing states. Deriving state controllers can
+    /// provide further public members and specific control over the flow of states.
+    /// e.g. NPC provides access to a NavMeshAgent.
+    /// </summary>
     public abstract class StateController : MonoBehaviour
     {
         [SerializeField] private BehaviourState _initialState;
@@ -42,19 +46,42 @@ namespace GGD
         }
 
         /// <summary>
-        /// NOTE: Must call base.Update().
+        /// Simply calls UpdateCurrentState().
+        /// Override to add further logic for the flow of states (e.g. an exit condition for any state
+        /// the controller might be in).
+        /// NOTE: Must call base.Update() or UpdateCurrentState().
         /// </summary>
         protected virtual void Update()
         {
-            _currentState?.ExecuteUpdate(Time.deltaTime);
+            UpdateCurrentState(Time.deltaTime);
         }
 
         /// <summary>
-        /// NOTE: Must call base.FixedUpdate().
+        /// Simply calls FixedUpdateCurrentState().
+        /// Override to add further logic (e.g. physics logic that is independant of the current state).
+        /// NOTE: Must call base.FixedUpdate() or FixedUpdateCurrentState().
         /// </summary>
         protected virtual void FixedUpdate()
         {
-            _currentState?.ExecuteFixedUpdate(Time.fixedDeltaTime);
+            FixedUpdateCurrentState(Time.fixedDeltaTime);
+        }
+
+        /// <summary>
+        /// Simply used to update the current state.
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        protected void UpdateCurrentState(float deltaTime)
+        {
+            _currentState?.ExecuteUpdate(deltaTime);
+        }
+
+        /// <summary>
+        /// Simply used to update the current state in FixedUpdate().
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        protected void FixedUpdateCurrentState(float deltaTime)
+        {
+            _currentState?.ExecuteFixedUpdate(deltaTime);
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace GGD
         [SerializeField] protected UnityEvent _exited;
 
         private StateController _owner;
-        protected bool _isInitialized = false;
+        private bool _isInitialized = false;
 
         public StateController Owner => _owner;
         public bool IsInitialized => _isInitialized;
@@ -30,6 +30,7 @@ namespace GGD
 
         public virtual void Initialize(StateController owner)
         {
+            _isInitialized = true;
             _owner = owner;
         }
 
