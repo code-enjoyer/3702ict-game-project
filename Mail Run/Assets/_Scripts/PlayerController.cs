@@ -8,6 +8,10 @@ namespace GGD
     {
         [SerializeField] private float _baseSpeed = 4f;
         [SerializeField] private float _baseAccelaration = 20f;
+        [SerializeField] private AnimationCurve _inverseAccelarationCurve = new AnimationCurve(
+            new Keyframe(0f, 2f),
+            new Keyframe(0.5f, 1f),
+            new Keyframe(1f, 1f));
 
         private Rigidbody _rigidbody;
 
@@ -40,14 +44,15 @@ namespace GGD
                 direction.Normalize();
             }
 
-            _targetVelocity = direction * _baseSpeed;
+            _targetVelocity = Vector3.Lerp(_targetVelocity, direction * _baseSpeed, Time.deltaTime * 69f);
         }
 
         private void FixedUpdate()
         {
-            Vector3 newVelocity = Vector3.MoveTowards(Velocity, _targetVelocity, _baseAccelaration * Time.fixedDeltaTime);
-            Vector3 requiredAccelaration = newVelocity - Velocity;
-            _rigidbody.AddForce(requiredAccelaration, ForceMode.VelocityChange);
+            float accelarationFactor = _inverseAccelarationCurve.Evaluate(Vector3.Dot(_targetVelocity, Velocity));
+            Vector3 newVelocity = Vector3.MoveTowards(Velocity, _targetVelocity, _baseAccelaration * accelarationFactor * Time.fixedDeltaTime);
+            Vector3 requiredAccelaration = (newVelocity - Velocity) / Time.fixedDeltaTime;
+            _rigidbody.AddForce(requiredAccelaration, ForceMode.Acceleration);
         }
     }
 }
