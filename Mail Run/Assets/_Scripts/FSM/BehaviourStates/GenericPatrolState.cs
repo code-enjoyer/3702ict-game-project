@@ -23,6 +23,7 @@ namespace GGD
         private float timer;
         private int _currentWaypointIndex = 0;
         GameObject player;
+        [SerializeField] private GameObject eyes;
 
         protected override void OnEnter()
         {
@@ -58,10 +59,12 @@ namespace GGD
             }
             if (Random.value <= 0.001f)
             {
-                Owner.SetState(_idleState);
+             //   Owner.SetState(_idleState);
             }
 
-            if(Vector3.Distance(transform.position, player.transform.position) <= los && timer <= 0f)
+            
+
+            if(LineOfSight() && timer <= 0f)
             {
                 Owner.SetState(_harassState);
             }
@@ -79,11 +82,46 @@ namespace GGD
             }
         }
 
-        void OnDrawGizmos()
+        bool LineOfSight()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, los);
+            RaycastHit hit;
+
+            Vector3 direction = player.transform.position - transform.position;
+
+            if(Physics.Raycast(eyes.transform.position + (Vector3.left * 0.2f), direction, out hit, los))
+            {
+                Debug.DrawLine(eyes.transform.position + (Vector3.left * 0.2f), hit.point);
+
+                if (hit.transform.CompareTag("Player"))
+                {
+                    return true;
+                }
+                
+            }
+
+            return false;
         }
+
+        //void OnDrawGizmos()
+        //{
+
+        //    Gizmos.color = Color.red;
+        //    float angle = 30.0f;
+            
+        //    float halfFOV = angle / 2.0f;
+        //    float height = 1.4f;
+            
+
+        //    Quaternion upRayRotation = Quaternion.AngleAxis(-halfFOV , Vector3.up);
+        //    Quaternion downRayRotation = Quaternion.AngleAxis(halfFOV , Vector3.up);
+
+        //    Vector3 upRayDirection = upRayRotation * transform.forward * los;
+        //    Vector3 downRayDirection = downRayRotation * transform.forward * los;
+
+        //    Gizmos.DrawRay(transform.position + (Vector3.up * height), upRayDirection);
+        //    Gizmos.DrawRay(transform.position + (Vector3.up * height), downRayDirection);
+        //    Gizmos.DrawLine(transform.position + (Vector3.up * height) + downRayDirection, transform.position + (Vector3.up * height) + upRayDirection);
+        //}
 
     }
 }
