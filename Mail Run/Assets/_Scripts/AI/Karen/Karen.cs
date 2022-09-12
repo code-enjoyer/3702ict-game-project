@@ -16,8 +16,9 @@ namespace GGD
 
         protected override void OnEnter()
         {
-            Owner.NavMeshAgent.SetDestination(transform.position);
             player = GameManager.Instance.Player;
+            Owner.NavMeshAgent.SetDestination(player.transform.position);
+            
             press = clicks;
         }
 
@@ -25,6 +26,10 @@ namespace GGD
         {
             //TODO stop player
 
+            if (Vector3.Distance(transform.position, player.transform.position) <= 1f)
+            {
+                Owner.NavMeshAgent.SetDestination(transform.position);
+            }
             cube.SetActive(true);
 
             if (Input.GetButtonDown("Fire1"))
