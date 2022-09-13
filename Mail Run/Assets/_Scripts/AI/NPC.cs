@@ -1,21 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace GGD
 {
-    public class NPC : MonoBehaviour
+    public class NPC : StateController
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        protected NavMeshAgent _navMeshAgent;
 
-        // Update is called once per frame
-        void Update()
+        public NavMeshAgent NavMeshAgent => _navMeshAgent;
+
+        protected override void Awake()
         {
-        
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+
+            base.Awake();
         }
     }
 }
