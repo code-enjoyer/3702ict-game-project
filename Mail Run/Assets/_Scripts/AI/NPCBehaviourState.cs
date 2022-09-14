@@ -14,7 +14,7 @@ namespace GGD
         {
             base.Initialize(owner);
 
-            _NPC = owner as NPC;
+            _NPC = owner.GetComponent<NPC>();
         }
     }
 }

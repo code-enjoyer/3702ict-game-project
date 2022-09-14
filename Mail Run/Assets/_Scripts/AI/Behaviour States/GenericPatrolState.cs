@@ -49,7 +49,7 @@ namespace GGD
             }
             if (Random.value <= 0.001f)
             {
-                _NPC.SetState(_idleState);
+                _NPC.StateController.SetState(_idleState);
             }
         }
 

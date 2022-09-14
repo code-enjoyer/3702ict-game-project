@@ -22,7 +22,7 @@ namespace GGD
             _timer -= deltaTime;
             if (_timer <= 0f)
             {
-                _NPC.SetState(_NPC.LastState);
+                _NPC.StateController.SetState(_NPC.StateController.LastState);
             }
         }
     }
