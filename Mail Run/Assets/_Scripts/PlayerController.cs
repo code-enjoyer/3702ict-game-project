@@ -48,6 +48,10 @@ namespace GGD
 
             // Set target move direction to the Player's input in relation to the Camera's orientation (excluding its x axis / pitch)
             Vector3 newTargetMoveDirection = new Vector3(_xInput, 0f, _yInput);
+            if (newTargetMoveDirection.sqrMagnitude > 1f)
+            {
+                newTargetMoveDirection.Normalize();
+            }
             Vector3 camOrientation = Camera.main.transform.rotation.eulerAngles;
             camOrientation.x = 0f;
             newTargetMoveDirection = Quaternion.Euler(camOrientation) * newTargetMoveDirection;
