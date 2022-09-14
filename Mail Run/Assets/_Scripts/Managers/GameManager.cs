@@ -34,6 +34,8 @@ namespace GGD
         {
             base.Awake();
 
+            DontDestroyOnLoad(gameObject);
+
             // Initialize references
             // TODO: Swap to FindGameObjectOfType<T>() when player class is made
             _player = GameObject.FindGameObjectWithTag("Player");
