@@ -12,7 +12,6 @@ namespace GGD
         [SerializeField] private float forceApplied = 100;
 
         private float timer;
-        
 
         GameObject player;
         protected override void OnEnter()
@@ -41,13 +40,15 @@ namespace GGD
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        public void OnCollisionEnter(Collision collision)
         {
-            
-            if(collision.gameObject.tag == "Player")
+            Debug.Log(collision.gameObject.name);
+            if (collision.gameObject.tag == "Player")
             {
-                collision.gameObject.GetComponent<Rigidbody>().AddForce(collision.contacts[0].normal * forceApplied);
+                Debug.Log("Player found");
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * forceApplied);
             }
         }
-    }
+
+}
 }

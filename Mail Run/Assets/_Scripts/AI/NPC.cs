@@ -73,5 +73,10 @@ namespace GGD
                 _currentState = _initialState;
             }
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            _currentState.SendMessage("OnCollisionEnter", collision);
+        }
     }
 }
