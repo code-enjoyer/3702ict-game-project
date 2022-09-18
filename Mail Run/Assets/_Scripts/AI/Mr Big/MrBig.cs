@@ -10,6 +10,7 @@ namespace GGD
         [SerializeField] private BehaviourState _patrolState;
         [SerializeField] private float follow = 5f;
         [SerializeField] private float forceApplied = 100;
+        public GameObject indicator;
 
         private float timer;
 
@@ -19,6 +20,7 @@ namespace GGD
             player = GameManager.Instance.Player;
             Owner.NavMeshAgent.SetDestination(player.transform.position);
             timer = follow;
+            indicator.SetActive(true);
         }
 
         public override void ExecuteUpdate(float deltaTime)
@@ -36,6 +38,7 @@ namespace GGD
 
             if (timer <= 0f)
             {
+                indicator.SetActive(false);
                 Owner.SetState(_patrolState);
             }
         }

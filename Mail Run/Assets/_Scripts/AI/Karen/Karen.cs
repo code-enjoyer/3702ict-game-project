@@ -7,6 +7,7 @@ namespace GGD
     public class Karen : BehaviourState
     {
         public GameObject cube;
+        public GameObject indicator;
         [SerializeField] private int clicks = 10;
         [SerializeField] private BehaviourState _patrolState;
 
@@ -31,6 +32,7 @@ namespace GGD
                 Owner.NavMeshAgent.SetDestination(transform.position);
             }
             cube.SetActive(true);
+            indicator.SetActive(true);
 
             if (Input.GetButtonDown("Fire1"))
             {
@@ -41,9 +43,15 @@ namespace GGD
             if (press <= 0)
             {
                 cube.SetActive(false);
+                indicator.SetActive(false);
                 //TODO player can move
                 Owner.SetState(_patrolState);
             }
+        }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+          
         }
     }
 }

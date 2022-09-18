@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,11 @@ namespace GGD
         public virtual void Initialize(NPC owner)
         {
             _owner = owner;
+        }
+
+        internal void Initialize(MrBigNPC mrBigNPC)
+        {
+            throw new NotImplementedException();
         }
 
         protected virtual void OnEnter() { }
