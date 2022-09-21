@@ -90,23 +90,25 @@ namespace GGD
         /// <param name="targetState">The state to change to.</param>
         /// <param name="executeExit">Whether to call the Exit function on the old state.</param>
         /// <param name="executeEnter">Whether to call the Enter function on the new state.</param>
-        public void SetState(BehaviourState targetState, bool executeExit = true, bool executeEnter = true)
+        /// <param name="executeIfSameState">Whether to execute the state change if the new state is the current state.</param>
+        public void SetState(BehaviourState targetState, bool executeExit = true, bool executeEnter = true, bool executeIfSameState = false)
         {
-            string fromString = _currentState == null ? "No State" : _currentState.name;
-            Debug.Log($"[{name}: StateController] Swapping from {fromString} to {targetState?.name}.", gameObject);
-
-            if (executeExit && _currentState != null)
+            if (executeIfSameState || _currentState != targetState)
             {
-                _currentState.Exit();
-            }
+                if (executeExit && _currentState != null)
+                {
+                    _currentState.Exit();
+                }
 
-            if (executeEnter && targetState != null)
-            {
-                targetState.Enter();
-            }
 
-            _lastState = _currentState;
-            _currentState = targetState;
+                if (executeEnter && targetState != null)
+                {
+                    targetState.Enter();
+                }
+
+                _lastState = _currentState;
+                _currentState = targetState;
+            }
         }
 
         /// <summary>
