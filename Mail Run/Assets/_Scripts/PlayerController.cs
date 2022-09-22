@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GGD
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : Character
     {
         [SerializeField] private float _baseSpeed = 4f;
         [SerializeField] private float _baseAccelaration = 20f;
@@ -14,26 +14,16 @@ namespace GGD
             new Keyframe(1f, 1f));
         [SerializeField] private float _turnSpeed = 4.2f;
 
-        private Rigidbody _rigidbody;
-
         private float _xInput;
         private float _yInput;
         private Vector3 _targetMoveDirection;
+        private bool _isControllable = true;
+        private bool _isInCart = false;
 
-        public Rigidbody Rigidbody => _rigidbody;
-        public Vector3 Velocity => _rigidbody.velocity;
         public Vector3 TargetMoveDirection => _targetMoveDirection;
-
-        private void Awake()
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-
-        }
-
-        private void Start()
-        {
-            
-        }
+        public bool IsControllable => _isControllable;
+        public bool IsInCart => _isInCart;
+        public override bool IsDetectable => !_isInCart; // NOTE: Can expand on this later
 
         private void Update()
         {
@@ -48,11 +38,20 @@ namespace GGD
 
         private void HandleInput()
         {
+            if (!_isControllable)
+            {
+                return;
+            }
+
             _xInput = Input.GetAxis("Horizontal");
             _yInput = Input.GetAxis("Vertical");
 
             // Set target move direction to the Player's input in relation to the Camera's orientation (excluding its x axis / pitch)
             Vector3 newTargetMoveDirection = new Vector3(_xInput, 0f, _yInput);
+            if (newTargetMoveDirection.sqrMagnitude > 1f)
+            {
+                newTargetMoveDirection.Normalize();
+            }
             Vector3 camOrientation = Camera.main.transform.rotation.eulerAngles;
             camOrientation.x = 0f;
             newTargetMoveDirection = Quaternion.Euler(camOrientation) * newTargetMoveDirection;
@@ -71,7 +70,7 @@ namespace GGD
             Vector3 targetVelocity = TargetMoveDirection * _baseSpeed;
             Vector3 newVelocity = Vector3.MoveTowards(Velocity, targetVelocity, _baseAccelaration * accelarationFactor * Time.fixedDeltaTime);
             Vector3 requiredAccelaration = newVelocity - Velocity;
-            _rigidbody.AddForce(requiredAccelaration, ForceMode.VelocityChange);
+            Rigidbody.AddForce(requiredAccelaration, ForceMode.VelocityChange);
         }
 
         private void RotateTowards(Vector3 direction)
@@ -80,8 +79,8 @@ namespace GGD
                 return;
 
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-            targetRotation = Quaternion.Slerp(_rigidbody.rotation, targetRotation, _turnSpeed * Time.deltaTime);
-            _rigidbody.MoveRotation(targetRotation);
+            targetRotation = Quaternion.Slerp(Rigidbody.rotation, targetRotation, _turnSpeed * Time.deltaTime);
+            Rigidbody.MoveRotation(targetRotation);
         }
 
         public void SetTargetMoveDirection(Vector3 direction)
@@ -90,6 +89,16 @@ namespace GGD
             if (_targetMoveDirection.sqrMagnitude > 1f)
             {
                 _targetMoveDirection.Normalize();
+            }
+        }
+
+        public void SetIsControllable(bool value, bool resetTargetMoveDirection = true)
+        {
+            _isControllable = value;
+
+            if (resetTargetMoveDirection)
+            {
+                _targetMoveDirection = Vector3.zero;
             }
         }
     }

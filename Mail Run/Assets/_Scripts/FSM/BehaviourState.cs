@@ -8,29 +8,30 @@ namespace GGD
 {
     public abstract class BehaviourState : MonoBehaviour
     {
-        [SerializeField] protected UnityEvent _entered;
-        [SerializeField] protected UnityEvent _exited;
+        [SerializeField] protected UnityEvent _onEnter;
+        [SerializeField] protected UnityEvent _onExit;
 
-        protected NPC _owner;
-        protected bool _isInitialized = false;
+        private StateController _owner;
+        private bool _isInitialized = false;
 
-        public NPC Owner => _owner;
+        public StateController Owner => _owner;
         public bool IsInitialized => _isInitialized;
 
         public void Enter()
         {
             OnEnter();
-            _entered?.Invoke();
+            _onEnter?.Invoke();
         }
 
         public void Exit()
         {
             OnExit();
-            _exited?.Invoke();
+            _onExit?.Invoke();
         }
 
-        public virtual void Initialize(NPC owner)
+        public virtual void Initialize(StateController owner)
         {
+            _isInitialized = true;
             _owner = owner;
         }
 
