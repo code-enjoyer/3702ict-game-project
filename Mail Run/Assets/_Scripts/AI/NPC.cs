@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace GGD
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody), typeof(StateController))]
     public class NPC : Character
     {
         [SerializeField] private string _displayName = "PLACEHOLDER";
@@ -22,6 +22,7 @@ namespace GGD
         {
             base.Awake();
 
+            _stateController = GetComponent<StateController>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
     }

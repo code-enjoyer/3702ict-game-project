@@ -59,6 +59,11 @@ namespace GGD
                 _instance = this as T;
             }
 
+            if (_isPersistant)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+
             _isInitialized = true;
         }
     }
