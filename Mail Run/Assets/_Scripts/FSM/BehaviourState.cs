@@ -34,11 +34,6 @@ namespace GGD
             _owner = owner;
         }
 
-        internal void Initialize(MrBigNPC mrBigNPC)
-        {
-            throw new NotImplementedException();
-        }
-
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }
 

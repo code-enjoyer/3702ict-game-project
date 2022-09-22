@@ -77,7 +77,7 @@ namespace GGD
         private void OnCollisionEnter(Collision collision)
         {
             _currentState.SendMessage("OnCollisionEnter", collision);
+            Debug.Log("Collision");
         }
-
     }
 }

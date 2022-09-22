@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GGD
 {
     public class MrBig : BehaviourState
     {
-
         [SerializeField] private BehaviourState _patrolState;
         [SerializeField] private float follow = 5f;
-        [SerializeField] private float forceApplied = 100;
+        [SerializeField] private float forceApplied = 15;
         public GameObject indicator;
 
         private float timer;
@@ -49,9 +46,8 @@ namespace GGD
             if (collision.gameObject.tag == "Player")
             {
                 Debug.Log("Player found");
-                collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * forceApplied);
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * forceApplied, ForceMode.Impulse);
             }
         }
-
-}
+    }
 }
