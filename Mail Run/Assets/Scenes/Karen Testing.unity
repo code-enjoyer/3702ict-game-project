@@ -2306,6 +2306,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9025271573437418174, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
+        type: 3}
+      propertyPath: m_TagString
+      value: NPC
+      objectReference: {fileID: 0}
     - target: {fileID: 9025271574938068609, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
         type: 3}
       propertyPath: indicator
@@ -2415,6 +2420,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2169644908683782750, guid: 60ec8d847ae4d5e4e8e70faaa1902bda,
+        type: 3}
+      propertyPath: m_TagString
+      value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 2169644908683782751, guid: 60ec8d847ae4d5e4e8e70faaa1902bda,
         type: 3}
@@ -2539,6 +2549,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6548477410312495904, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32,
+        type: 3}
+      propertyPath: m_TagString
+      value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 6548477410312495933, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32,
         type: 3}
@@ -2693,6 +2708,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025271573437418174, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
+        type: 3}
+      propertyPath: m_TagString
+      value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 9025271574938068609, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
         type: 3}
