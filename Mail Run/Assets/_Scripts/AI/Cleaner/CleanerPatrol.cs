@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GGD
 {
-    public class CleanerPatrol : BehaviourState
+    public class CleanerPatrol : NPCBehaviourState
     {
         public enum PatrolMethod
         {
@@ -27,7 +27,7 @@ namespace GGD
 
         protected override void OnEnter()
         {
-            _owner.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
+            _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             player = GameManager.Instance.Player;
             timer = coolDown;
         }
@@ -41,7 +41,7 @@ namespace GGD
                 Debug.Log("On cooldown");
             }
             // TODO: Use a variable for "effective" stopping distance
-            if (_owner.NavMeshAgent.remainingDistance < 1f)
+            if (_NPC.NavMeshAgent.remainingDistance < 1f)
             {
                 //switch (_patrolMethod)
                 //{
@@ -59,7 +59,7 @@ namespace GGD
                 {
                     _currentWaypointIndex = 0;
                 }
-                _owner.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
+                _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             }
             if (Random.value <= 0.001f)
             {

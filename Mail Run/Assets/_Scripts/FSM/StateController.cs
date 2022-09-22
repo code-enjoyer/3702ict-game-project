@@ -9,7 +9,7 @@ namespace GGD
     /// provide further public members and specific control over the flow of states.
     /// e.g. NPC provides access to a NavMeshAgent.
     /// </summary>
-    public abstract class StateController : MonoBehaviour
+    public class StateController : MonoBehaviour
     {
         [SerializeField] private BehaviourState _initialState;
 

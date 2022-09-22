@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GGD
 {
-    public class Karen : BehaviourState
+    public class Karen : NPCBehaviourState
     {
         public GameObject cube;
         public GameObject indicator;
@@ -18,7 +18,7 @@ namespace GGD
         protected override void OnEnter()
         {
             player = GameManager.Instance.Player;
-            Owner.NavMeshAgent.SetDestination(player.transform.position);
+            _NPC.NavMeshAgent.SetDestination(player.transform.position);
             
             press = clicks;
         }
@@ -29,7 +29,7 @@ namespace GGD
 
             if (Vector3.Distance(transform.position, player.transform.position) <= 1f)
             {
-                Owner.NavMeshAgent.SetDestination(transform.position);
+                _NPC.NavMeshAgent.SetDestination(transform.position);
             }
             cube.SetActive(true);
             indicator.SetActive(true);
@@ -45,7 +45,7 @@ namespace GGD
                 cube.SetActive(false);
                 indicator.SetActive(false);
                 //TODO player can move
-                Owner.SetState(_patrolState);
+                _NPC.StateController.SetState(_patrolState);
             }
         }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GGD
 {
-    public class MrBig : BehaviourState
+    public class MrBig : NPCBehaviourState
     {
         [SerializeField] private BehaviourState _patrolState;
         [SerializeField] private float follow = 5f;
@@ -15,7 +15,7 @@ namespace GGD
         protected override void OnEnter()
         {
             player = GameManager.Instance.Player;
-            Owner.NavMeshAgent.SetDestination(player.transform.position);
+            _NPC.NavMeshAgent.SetDestination(player.transform.position);
             timer = follow;
             indicator.SetActive(true);
         }
@@ -26,17 +26,17 @@ namespace GGD
             player = GameManager.Instance.Player;
             if (Vector3.Distance(transform.position, player.transform.position) > 0f)
             {
-                _owner.NavMeshAgent.SetDestination(player.transform.position);
+                _NPC.NavMeshAgent.SetDestination(player.transform.position);
             }
             else
             {
-                _owner.NavMeshAgent.SetDestination(transform.position);
+                _NPC.NavMeshAgent.SetDestination(transform.position);
             }
 
             if (timer <= 0f)
             {
                 indicator.SetActive(false);
-                Owner.SetState(_patrolState);
+                _NPC.StateController.SetState(_patrolState);
             }
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GGD
 {
-    public class CleanerIdle : BehaviourState
+    public class CleanerIdle : NPCBehaviourState
     {
         [SerializeField] private float _idleTimeMin = 2f;
         [SerializeField] private float _idleTimeMax = 10f;
@@ -14,7 +14,7 @@ namespace GGD
 
         protected override void OnEnter()
         {
-            Owner.NavMeshAgent.SetDestination(transform.position);
+            _NPC.NavMeshAgent.SetDestination(transform.position);
             _timer = Random.Range(_idleTimeMin, _idleTimeMax);
             GameObject instance = Instantiate(puddle, transform.position,
             transform.rotation);
@@ -25,7 +25,7 @@ namespace GGD
             _timer -= deltaTime;
             if (_timer <= 0f)
             {
-                _owner.SetState(_owner.LastState);
+                _NPC.StateController.SetState(_NPC.StateController.LastState);
             }
         }
     }

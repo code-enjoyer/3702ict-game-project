@@ -31,7 +31,8 @@ namespace GGD
         {
             _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             player = GameManager.Instance.Player;
-            timer = coolDown;
+            if (!_NPC.StateController.LastState == _idleState)
+                timer = coolDown;
         }
 
         public override void ExecuteUpdate(float deltaTime)

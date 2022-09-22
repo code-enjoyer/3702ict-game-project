@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GGD
 {
-    public class ManagerNPC : BehaviourState
+    public class ManagerNPC : NPCBehaviourState
     {
 
         [SerializeField] private BehaviourState _patrolState;
@@ -12,12 +12,21 @@ namespace GGD
         private float timer;
         public GameObject indicator;
 
-        GameObject player;
+        PlayerController player;
+
+        protected void Start()
+        {
+            player = GameManager.Instance.Player.GetComponent<PlayerController>();
+        }
 
         protected override void OnEnter()
         {
-            player = GameManager.Instance.Player;
-            Owner.NavMeshAgent.SetDestination(player.transform.position);
+            if (!player.IsInteracting)
+            {
+                _NPC.StateController.SetState(_patrolState);
+                return;
+            }
+            _NPC.NavMeshAgent.SetDestination(player.transform.position);
             timer = delay;
             indicator.SetActive(true);
         }
@@ -25,14 +34,13 @@ namespace GGD
         public override void ExecuteUpdate(float deltaTime)
         {
             timer -= deltaTime;
-            player = GameManager.Instance.Player;
-            _owner.NavMeshAgent.SetDestination(transform.position);
-           
+            _NPC.NavMeshAgent.SetDestination(transform.position);
+
             if (timer <= 0f)
             {
-                player.transform.position = new Vector3(0,0,0);
+                player.transform.position = new Vector3(0, 0, 0);
                 indicator.SetActive(false);
-                Owner.SetState(_patrolState);
+                _NPC.StateController.SetState(_patrolState);
             }
         }
 
