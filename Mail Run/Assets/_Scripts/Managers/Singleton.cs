@@ -10,7 +10,7 @@ namespace GGD
     /// a scene and provides a global/static reference (e.g. SomeManager.Instance).
     /// </summary>
     /// <typeparam name="T">Type of the inheriting singleton (e.g. class MySingleton : Singleton<MySingleton></typeparam>
-    [DefaultExecutionOrder(-100)]
+    [DefaultExecutionOrder(-50)]
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         [Tooltip("Whether the singleton should persist throughout scenes.")]

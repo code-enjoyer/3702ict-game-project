@@ -9,6 +9,7 @@ namespace GGD
     /// Responsible for the game "flow" and state.
     /// Provides utils such as a reference to the player and public functions.
     /// </summary>
+    [DefaultExecutionOrder(-60)]
     [RequireComponent(typeof(StateController))]
     public class GameManager : Singleton<GameManager>
     {
