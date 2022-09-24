@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace GGD
 {
-    public class GenericPatrolState : NPCBehaviourState
+    public class ManagerNPCPatrol : NPCBehaviourState
     {
         public enum PatrolMethod
         {
@@ -17,21 +17,25 @@ namespace GGD
         [SerializeField] private PatrolMethod _patrolMethod = PatrolMethod.PingPong;
         [SerializeField] private Transform[] _waypoints = new Transform[1];
         [SerializeField] private BehaviourState _idleState;
-        [SerializeField] private BehaviourState _harassState;
         [SerializeField] private float los = 3;
         [SerializeField] private float fov = 45;
         [SerializeField] private LayerMask mask = 1;
         [SerializeField] private float coolDown = 3f;
+        private float delay = 1f;
         private float timer;
+        private float timer2;
+        private bool sighted;
         private int _currentWaypointIndex = 0;
         PlayerController player;
+        Character person;
         [SerializeField] private GameObject eyes;
+        public GameObject indicator;
 
         protected override void OnEnter()
         {
             _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             player = GameManager.Instance.Player.GetComponent<PlayerController>();
-
+            timer2 = delay;
             if (!(_NPC.StateController.LastState == _idleState))
                 timer = coolDown;
         }
@@ -39,7 +43,7 @@ namespace GGD
         public override void ExecuteUpdate(float deltaTime)
         {
             timer -= deltaTime;
-            if(timer > 0)
+            if (timer > 0)
             {
                 Debug.Log("On cooldown");
             }
@@ -69,9 +73,17 @@ namespace GGD
                 _NPC.StateController.SetState(_idleState);
             }
 
-            if(LineOfSight() && timer <= 0f)
+            if(timer <= 0f)
+                LineOfSight();
+
+            if (sighted)
             {
-                Owner.SetState(_harassState);
+                _NPC.NavMeshAgent.SetDestination(player.transform.position);
+                indicator.SetActive(true);
+                _NPC.NavMeshAgent.SetDestination(transform.position);
+                timer2 -= deltaTime;
+                if(timer2 <= 0)
+                    caught();
             }
         }
 
@@ -87,7 +99,7 @@ namespace GGD
             }
         }
 
-        bool LineOfSight()
+        void LineOfSight()
         {
             RaycastHit hit;
 
@@ -98,26 +110,36 @@ namespace GGD
 
             if (items.Length > 0)
             {
-                for(int i =0; i< items.Length; i++)
+                for (int i = 0; i < items.Length; i++)
                 {
-                    if(items[i] == GetComponent<Collider>())
+                    if (items[i] == GetComponent<Collider>())
                     {
                         continue;
                     }
 
-                    if(Vector3.Angle(transform.forward, items[i].transform.position - transform.position) <= fov)
+                    if (Vector3.Angle(transform.forward, items[i].transform.position - transform.position) <= fov)
                     {
                         if (Physics.Raycast(eyes.transform.position, items[i].transform.position - transform.position, out hit, los, mask))
                         {
-                           
-                            if (hit.transform.CompareTag("Player"))
-                                return true;
+                            if (hit.transform.CompareTag("NPC") || hit.transform.CompareTag("Player"))
+                            {
+                                person = hit.transform.GetComponent<Character>();
+                                if (person.IsInteracting)
+                                    sighted = true;
+                            }
                         }
                     }
                 }
             }
+        }
 
-            return false;
+        void caught()
+        {
+            player.transform.position = new Vector3(0, 0, 0);
+            indicator.SetActive(false);
+            player.SetInteracting(false);
+            sighted = false;
+            OnEnter();
         }
 
         void OnDrawGizmos()
@@ -143,7 +165,7 @@ namespace GGD
             {
                 Debug.Log("Player found");
                 player.SetInteracting(true);
-                Owner.SetState(_harassState);
+                sighted = true;
             }
         }
     }

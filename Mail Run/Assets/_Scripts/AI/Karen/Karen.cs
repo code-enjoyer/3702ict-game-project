@@ -22,14 +22,13 @@ namespace GGD
 
             player.SetInteracting(true);
             _NPC.SetInteracting(true);
+            player.SetIsControllable(false);
 
             press = clicks;
         }
 
         public override void ExecuteUpdate(float deltaTime)
         {
-            //TODO stop player
-
             if (Vector3.Distance(transform.position, player.transform.position) <= 1f)
             {
                 _NPC.NavMeshAgent.SetDestination(transform.position);
@@ -49,6 +48,7 @@ namespace GGD
                 indicator.SetActive(false);
                 player.SetInteracting(false);
                 _NPC.SetInteracting(false);
+                player.SetIsControllable(true);
                 //TODO player can move
                 _NPC.StateController.SetState(_patrolState);
             }
