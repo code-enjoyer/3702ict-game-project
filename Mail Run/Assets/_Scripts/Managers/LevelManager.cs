@@ -1,10 +1,11 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace GGD
 {
@@ -23,6 +24,12 @@ namespace GGD
         [SerializeField] private Image _transitionBackground;
         [SerializeField] private RectTransform _loadScreen;
         [SerializeField] private Image _progressFill;
+
+
+        //private delegate bool BreadCrumbMethod();
+        //private List<BreadCrumbMethod> _onLevelLoadChain = new();
+        // e.g: _onLevelLoadChain.Add(() => { return true; });
+        // How to make this work with functions? e.g. _onLevelLoadChain.Add(SomeFunction)?
 
         protected override void Awake()
         {
@@ -59,20 +66,7 @@ namespace GGD
         // NOTE: Not sure if this is even needed...
         public void RestartLevel()
         {
-
-        }
-
-        private IEnumerator RestartLevelCo()
-        {
-            // Set GameManager state to paused
-
-            // TRANSITION OUT CO
-            yield return StartCoroutine(TransitionOutCo());
-
-            // TRANSITION IN CO
-            yield return StartCoroutine(TransitionInCo());
-
-            // Set GameManager state to playing
+            GoToLevel(SceneManager.GetActiveScene().name);
         }
 
         private IEnumerator GoToLevelCo(string levelName)
@@ -174,12 +168,6 @@ namespace GGD
             yield return _transitionMask.rectTransform.DOScale(1.5f, _transitionDuration).SetEase(Ease.Linear).WaitForCompletion();
 
             _transitionScreen.gameObject.SetActive(false);
-        }
-
-        [ContextMenu("Test")]
-        private void Test()
-        {
-            GoToLevel("Level02");
         }
     }
 
