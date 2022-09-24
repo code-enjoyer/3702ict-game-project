@@ -13,13 +13,16 @@ namespace GGD
 
         private int press;
 
-        GameObject player;
+        PlayerController player;
 
         protected override void OnEnter()
         {
-            player = GameManager.Instance.Player;
+            player = GameManager.Instance.Player.GetComponent<PlayerController>();
             _NPC.NavMeshAgent.SetDestination(player.transform.position);
-            
+
+            player.SetInteracting(true);
+            _NPC.SetInteracting(true);
+
             press = clicks;
         }
 
@@ -44,6 +47,8 @@ namespace GGD
             {
                 cube.SetActive(false);
                 indicator.SetActive(false);
+                player.SetInteracting(false);
+                _NPC.SetInteracting(false);
                 //TODO player can move
                 _NPC.StateController.SetState(_patrolState);
             }

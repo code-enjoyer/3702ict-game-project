@@ -24,20 +24,20 @@ namespace GGD
         [SerializeField] private float coolDown = 3f;
         private float timer;
         private int _currentWaypointIndex = 0;
-        GameObject player;
+        PlayerController player;
         [SerializeField] private GameObject eyes;
 
         protected override void OnEnter()
         {
             _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
-            player = GameManager.Instance.Player;
+            player = GameManager.Instance.Player.GetComponent<PlayerController>();
+
             if (!_NPC.StateController.LastState == _idleState)
                 timer = coolDown;
         }
 
         public override void ExecuteUpdate(float deltaTime)
         {
-            player = GameManager.Instance.Player;
             timer -= deltaTime;
             if(timer > 0)
             {
@@ -64,12 +64,10 @@ namespace GGD
                 }
                 _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             }
-            if (Random.value <= 0.001f)
+            if (Random.value <= 0.0001f)
             {
                 _NPC.StateController.SetState(_idleState);
             }
-
-            
 
             if(LineOfSight() && timer <= 0f)
             {
@@ -111,12 +109,13 @@ namespace GGD
                     {
                         if (Physics.Raycast(eyes.transform.position, items[i].transform.position - transform.position, out hit, los, mask))
                         {
-                            Debug.DrawLine(eyes.transform.position, hit.point);
-
+                            //if (_NPC.transform.CompareTag("ManagerNPC"))
+                            //{
+                            //    if (hit.transform.CompareTag("NPC"))
+                            //        return true;
+                            //}
                             if (hit.transform.CompareTag("Player"))
-                            {
                                 return true;
-                            }
                         }
                     }
                 }
@@ -138,8 +137,18 @@ namespace GGD
 
             Gizmos.DrawRay(eyes.transform.position, upRayDirection);
             Gizmos.DrawRay(eyes.transform.position, downRayDirection);
-            Gizmos.DrawLine(eyes.transform.position+ downRayDirection, eyes.transform.position + upRayDirection);
+            Gizmos.DrawLine(eyes.transform.position + downRayDirection, eyes.transform.position + upRayDirection);
         }
 
+        public void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log(collision.gameObject.name);
+            if (collision.gameObject.tag == "Player")
+            {
+                Debug.Log("Player found");
+                player.SetInteracting(true);
+                Owner.SetState(_harassState);
+            }
+        }
     }
 }

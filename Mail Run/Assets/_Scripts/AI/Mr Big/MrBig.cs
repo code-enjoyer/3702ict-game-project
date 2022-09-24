@@ -11,19 +11,22 @@ namespace GGD
 
         private float timer;
 
-        GameObject player;
+ 
+        PlayerController player;
         protected override void OnEnter()
         {
-            player = GameManager.Instance.Player;
+            player = GameManager.Instance.Player.GetComponent<PlayerController>();
             _NPC.NavMeshAgent.SetDestination(player.transform.position);
             timer = follow;
             indicator.SetActive(true);
+            player.SetInteracting(true);
+            _NPC.SetInteracting(true);
         }
 
         public override void ExecuteUpdate(float deltaTime)
         {
             timer -= deltaTime;
-            player = GameManager.Instance.Player;
+         
             if (Vector3.Distance(transform.position, player.transform.position) > 0f)
             {
                 _NPC.NavMeshAgent.SetDestination(player.transform.position);
@@ -36,6 +39,8 @@ namespace GGD
             if (timer <= 0f)
             {
                 indicator.SetActive(false);
+                player.SetInteracting(false);
+                _NPC.SetInteracting(false);
                 _NPC.StateController.SetState(_patrolState);
             }
         }
@@ -48,6 +53,8 @@ namespace GGD
                 Debug.Log("Player found");
                 collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * forceApplied, ForceMode.Impulse);
             }
+
+            //TODO collision with cart force
         }
     }
 }

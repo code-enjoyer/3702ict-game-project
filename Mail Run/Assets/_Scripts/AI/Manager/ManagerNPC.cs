@@ -33,6 +33,12 @@ namespace GGD
 
         public override void ExecuteUpdate(float deltaTime)
         {
+            if (!player.IsInteracting)
+            {
+                indicator.SetActive(false);
+                _NPC.StateController.SetState(_patrolState);
+                return;
+            }
             timer -= deltaTime;
             _NPC.NavMeshAgent.SetDestination(transform.position);
 
@@ -40,6 +46,7 @@ namespace GGD
             {
                 player.transform.position = new Vector3(0, 0, 0);
                 indicator.SetActive(false);
+                player.SetInteracting(false);
                 _NPC.StateController.SetState(_patrolState);
             }
         }
