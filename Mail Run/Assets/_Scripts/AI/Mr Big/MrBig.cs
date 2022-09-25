@@ -5,12 +5,13 @@ namespace GGD
     public class MrBig : NPCBehaviourState
     {
         [SerializeField] private BehaviourState _patrolState;
-        [SerializeField] private float follow = 5f;
+        [SerializeField] private float chaseSpeedMultiplier = 2f;
+        [SerializeField] private float followTime = 5f;
         [SerializeField] private float forceApplied = 15;
         public GameObject indicator;
 
         private float timer;
-
+        private float _lastMoveSpeed;
  
         PlayerController player;
         protected override void OnEnter()
@@ -18,10 +19,17 @@ namespace GGD
             player = GameManager.Instance.Player.GetComponent<PlayerController>();
             _NPC.NavMeshAgent.SetDestination(player.transform.position);
            // _NPC.NavMeshAgent.updateRotation = false;
-            timer = follow;
+            timer = followTime;
             indicator.SetActive(true);
             player.NumInteractions++;
             _NPC.NumInteractions++;
+            _lastMoveSpeed = _NPC.NavMeshAgent.speed;
+            _NPC.NavMeshAgent.speed = _NPC.NavMeshAgent.speed * chaseSpeedMultiplier;
+        }
+
+        protected override void OnExit()
+        {
+            _NPC.NavMeshAgent.speed = _lastMoveSpeed;
         }
 
         public override void ExecuteUpdate(float deltaTime)
