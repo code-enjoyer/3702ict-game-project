@@ -19,11 +19,13 @@ namespace GGD
         private Vector3 _targetMoveDirection;
         private bool _isControllable = true;
         private bool _isInCart = false;
+        private float _speedMultiplier = 1f;
 
         public Vector3 TargetMoveDirection => _targetMoveDirection;
         public bool IsControllable => _isControllable;
         public bool IsInCart => _isInCart;
         public override bool IsDetectable => !_isInCart; // NOTE: Can expand on this later
+        public float SpeedMultiplier => _speedMultiplier;
 
         private void Update()
         {
@@ -67,7 +69,7 @@ namespace GGD
         private void HandleMovement()
         {
             float accelarationFactor = _inverseAccelarationCurve.Evaluate(Vector3.Dot(TargetMoveDirection, Velocity.normalized));
-            Vector3 targetVelocity = TargetMoveDirection * _baseSpeed;
+            Vector3 targetVelocity = TargetMoveDirection * (_baseSpeed * _speedMultiplier);
             Vector3 newVelocity = Vector3.MoveTowards(Velocity, targetVelocity, _baseAccelaration * accelarationFactor * Time.fixedDeltaTime);
             Vector3 requiredAccelaration = newVelocity - Velocity;
             Rigidbody.AddForce(requiredAccelaration, ForceMode.VelocityChange);
@@ -100,6 +102,21 @@ namespace GGD
             {
                 _targetMoveDirection = Vector3.zero;
             }
+        }
+
+        public void SetSpeedMultiplier(float multi)
+        {
+            _speedMultiplier = multi;
+        }
+
+        public void AddSpeedMultiplier(float multi)
+        {
+            _speedMultiplier += multi;
+        }
+
+        public void MultiplySpeedMultiplier(float multi)
+        {
+            _speedMultiplier *= multi;
         }
     }
 }
