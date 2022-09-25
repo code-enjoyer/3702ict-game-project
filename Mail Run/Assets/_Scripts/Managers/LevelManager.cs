@@ -145,6 +145,7 @@ namespace GGD
         {
             // Enable and reset transition display
             _transitionScreen.gameObject.SetActive(true);
+            _transitionMask.rectTransform.localScale = Vector3.one * 1.5f;
             Color c = _transitionBackground.color;
             c.a = 0f;
             _transitionBackground.color = c;
@@ -167,6 +168,8 @@ namespace GGD
         private IEnumerator TransitionInCo()
         {
             // Reset transition display
+            _transitionScreen.gameObject.SetActive(true);
+            _transitionMask.rectTransform.localScale = Vector3.zero;
             Color c = _transitionBackground.color;
             c.a = 1f;
             _transitionBackground.color = c;

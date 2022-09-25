@@ -1413,7 +1413,7 @@ PrefabInstance:
     - target: {fileID: 840468138588848430, guid: 42d6f47465e102c44a65be1ca337a0cd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GoToLevel
+      value: GoToLevelNoFadeOut
       objectReference: {fileID: 0}
     - target: {fileID: 840468138588848430, guid: 42d6f47465e102c44a65be1ca337a0cd,
         type: 3}
