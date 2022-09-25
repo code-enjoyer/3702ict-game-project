@@ -17,6 +17,7 @@ namespace GGD
         {
             player = GameManager.Instance.Player.GetComponent<PlayerController>();
             _NPC.NavMeshAgent.SetDestination(player.transform.position);
+           // _NPC.NavMeshAgent.updateRotation = false;
             timer = follow;
             indicator.SetActive(true);
             player.SetInteracting(true);
@@ -41,6 +42,7 @@ namespace GGD
                 indicator.SetActive(false);
                 player.SetInteracting(false);
                 _NPC.SetInteracting(false);
+              //  _NPC.NavMeshAgent.updateRotation = true;
                 _NPC.StateController.SetState(_patrolState);
             }
         }
