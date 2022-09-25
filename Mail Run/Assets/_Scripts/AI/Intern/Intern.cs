@@ -17,8 +17,11 @@ namespace GGD
         protected override void OnEnter()
         {
             player = GameManager.Instance.Player.GetComponent<PlayerController>();
+            player.MultiplySpeedMultiplier(0.5f);
+
             _NPC.NavMeshAgent.SetDestination(player.transform.position);
             timer = follow;
+
             indicator.SetActive(true);
             player.SetInteracting(true);
             _NPC.SetInteracting(true);
@@ -41,13 +44,9 @@ namespace GGD
                 indicator.SetActive(false);
                 player.SetInteracting(false);
                 _NPC.SetInteracting(false);
+                player.MultiplySpeedMultiplier(1f / 0.5f);
                 _NPC.StateController.SetState(_patrolState);
             }
-        }
-
-        public void OnCollisionEnter(Collision collision)
-        {
-           
         }
     }
 }

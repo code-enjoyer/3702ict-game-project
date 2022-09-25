@@ -36,7 +36,7 @@ namespace GGD
         public void OnCollisionEnter(Collision collision)
         {
             Debug.Log(collision.gameObject.name);
-            if (collision.gameObject.tag == "Player" && timer <= 0)
+            if (collision.gameObject.CompareTag("Player") && timer <= 0)
             {
                 Debug.Log("Player found");
                 player.SetInteracting(true);

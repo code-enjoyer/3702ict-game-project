@@ -526,7 +526,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &923815418
 GameObject:
@@ -1362,52 +1362,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633a152ef79fb5341ae5f9281c0727c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialState: {fileID: 0}
---- !u!1 &1770087080
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1770087082}
-  - component: {fileID: 1770087081}
-  m_Layer: 0
-  m_Name: Puddle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1770087081
+  _initialState: {fileID: 1669814364}
+--- !u!114 &1669814364 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 6548477408767953865, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32,
+    type: 3}
+  m_PrefabInstance: {fileID: 6548477409016030030}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1770087080}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c85578e33cc3d884ab8201ee1b634c0e, type: 3}
+  m_Script: {fileID: 11500000, guid: 93bc84c12b1dcdf4399104c6ba5f1e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
---- !u!4 &1770087082
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1770087080}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.8461723, y: 0.955616, z: -3.2762125}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1940667666 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2169644909172782905, guid: 60ec8d847ae4d5e4e8e70faaa1902bda,
@@ -1560,7 +1527,7 @@ PrefabInstance:
     - target: {fileID: 2783041276437119470, guid: 12a3d94c66adf8e418554f0aaa4d1183,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2783041276437119470, guid: 12a3d94c66adf8e418554f0aaa4d1183,
         type: 3}
@@ -1629,7 +1596,7 @@ PrefabInstance:
     - target: {fileID: 2169644908683782750, guid: 60ec8d847ae4d5e4e8e70faaa1902bda,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2169644908683782750, guid: 60ec8d847ae4d5e4e8e70faaa1902bda,
         type: 3}
@@ -1764,12 +1731,17 @@ PrefabInstance:
     - target: {fileID: 6548477410312495904, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6548477410312495904, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32,
         type: 3}
       propertyPath: m_TagString
       value: NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 6548477410312495905, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6548477410312495933, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32,
         type: 3}
@@ -1830,7 +1802,8 @@ PrefabInstance:
         type: 3}
       propertyPath: puddle
       value: 
-      objectReference: {fileID: 1770087080}
+      objectReference: {fileID: 3248388783417580241, guid: 81e137142048bf64985a287b38c83bce,
+        type: 3}
     m_RemovedComponents:
     - {fileID: 6548477410312495934, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5bbbad385c04c8c42a7a1e2b4c07ef32, type: 3}
@@ -1864,7 +1837,7 @@ PrefabInstance:
     - target: {fileID: 1084505478528623930, guid: d75660b2d94a5404dba7fec82ec2a68a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1084505478528623930, guid: d75660b2d94a5404dba7fec82ec2a68a,
         type: 3}
@@ -1920,6 +1893,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Manager NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084505478528623934, guid: d75660b2d94a5404dba7fec82ec2a68a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d75660b2d94a5404dba7fec82ec2a68a, type: 3}
@@ -2013,7 +1991,7 @@ PrefabInstance:
     - target: {fileID: 9025271573437418174, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9025271573437418174, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
         type: 3}

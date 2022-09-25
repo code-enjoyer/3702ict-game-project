@@ -75,5 +75,14 @@ namespace GGD
                 Debug.LogWarning("[GenericPatrolState] There are null transforms in the waypoints array!", gameObject);
             }
         }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log(collision.gameObject.name);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                Owner.SetState(_idleState);
+            }
+        }
     }
 }
