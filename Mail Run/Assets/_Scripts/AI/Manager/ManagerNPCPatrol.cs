@@ -21,11 +21,16 @@ namespace GGD
         [SerializeField] private float fov = 45;
         [SerializeField] private LayerMask mask = 1;
         [SerializeField] private float coolDown = 3f;
+        [SerializeField] private float _idleTimeMin = 2f;
+        [SerializeField] private float _idleTimeMax = 10f;
+
         private float delay = 1f;
         private float timer;
         private float timer2;
+        private float _idleTimer;
         private bool sighted;
         private int _currentWaypointIndex = 0;
+        private bool idle;
         PlayerController player;
         Character person;
         [SerializeField] private GameObject eyes;
@@ -68,9 +73,21 @@ namespace GGD
                 }
                 _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             }
-            if (Random.value <= 0.0001f)
+
+            if (Random.value <= 0.0001f && !(idle))
             {
-                _NPC.StateController.SetState(_idleState);
+                _idleTimer = Random.Range(_idleTimeMin, _idleTimeMax);
+                idle = true;
+            }
+
+            if(idle)
+            {
+                if (_idleTimer > 0)
+                    Idle();
+                else
+                    idle = false;
+
+                _idleTimer -= deltaTime;
             }
 
             if(timer <= 0f)
@@ -85,6 +102,12 @@ namespace GGD
                 if(timer2 <= 0)
                     caught();
             }
+        }
+
+        private void Idle()
+        {
+            NPC.NavMeshAgent.SetDestination(transform.position);
+            
         }
 
         private void OnValidate()
@@ -161,7 +184,7 @@ namespace GGD
         public void OnCollisionEnter(Collision collision)
         {
             Debug.Log(collision.gameObject.name);
-            if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag == "Player" && timer <= 0)
             {
                 Debug.Log("Player found");
                 player.SetInteracting(true);
