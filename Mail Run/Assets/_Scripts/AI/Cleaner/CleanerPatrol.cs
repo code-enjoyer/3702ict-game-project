@@ -22,19 +22,16 @@ namespace GGD
         [SerializeField] private float coolDown = 3f;
         private float timer;
         private int _currentWaypointIndex = 0;
-        GameObject player;
         [SerializeField] private GameObject eyes;
 
         protected override void OnEnter()
         {
             _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
-            player = GameManager.Instance.Player;
             timer = coolDown;
         }
 
         public override void ExecuteUpdate(float deltaTime)
         {
-            player = GameManager.Instance.Player;
             timer -= deltaTime;
             if (timer > 0)
             {
