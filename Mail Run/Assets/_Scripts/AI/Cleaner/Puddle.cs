@@ -24,8 +24,11 @@ namespace GGD
             if (elapsedTime >= lifeTime)
             {
                 if (playerInside)
+                {
                     player.MultiplySpeedMultiplier(1f / muliplier);
-                
+                    player.NumInteractions--;
+                }
+
                 Destroy(gameObject);
             }
 
@@ -37,6 +40,7 @@ namespace GGD
             if (collider.gameObject.CompareTag("Player"))
             {
                 player.MultiplySpeedMultiplier(muliplier);
+                player.NumInteractions ++;
                 playerInside = true;
             }
         }
@@ -46,6 +50,7 @@ namespace GGD
             if (collider.gameObject.CompareTag("Player"))
             {
                 player.MultiplySpeedMultiplier(1f / muliplier);
+                player.NumInteractions--;
                 playerInside = false;
             }
         }

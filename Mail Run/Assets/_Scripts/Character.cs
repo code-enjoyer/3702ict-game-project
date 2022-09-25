@@ -12,6 +12,16 @@ namespace GGD
         private Rigidbody _rigidbody;
         private bool _isInteracting = false;
 
+        private int _numInteractions;
+        public int NumInteractions
+        {
+            get => _numInteractions;
+            set
+            {
+                _numInteractions = value;
+                _isInteracting = _numInteractions > 0;
+            }
+        }
         public Rigidbody Rigidbody => _rigidbody;
         public Vector3 Velocity => _rigidbody.velocity;
         public bool IsInteracting => _isInteracting;

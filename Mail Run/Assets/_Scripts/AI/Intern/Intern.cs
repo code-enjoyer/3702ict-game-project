@@ -23,8 +23,8 @@ namespace GGD
             timer = follow;
 
             indicator.SetActive(true);
-            player.SetInteracting(true);
-            _NPC.SetInteracting(true);
+            player.NumInteractions++;
+            _NPC.NumInteractions++;
         }
 
         public override void ExecuteUpdate(float deltaTime)
@@ -42,8 +42,8 @@ namespace GGD
             if (timer <= 0f)
             {
                 indicator.SetActive(false);
-                player.SetInteracting(false);
-                _NPC.SetInteracting(false);
+                player.NumInteractions--;
+                _NPC.NumInteractions--;
                 player.MultiplySpeedMultiplier(1f / 0.5f);
                 _NPC.StateController.SetState(_patrolState);
             }

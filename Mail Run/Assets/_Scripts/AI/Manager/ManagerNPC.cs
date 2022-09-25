@@ -46,7 +46,7 @@ namespace GGD
             {
                 player.transform.position = new Vector3(0, 0, 0);
                 indicator.SetActive(false);
-                player.SetInteracting(false);
+                player.NumInteractions--;
                 _NPC.StateController.SetState(_patrolState);
             }
         }

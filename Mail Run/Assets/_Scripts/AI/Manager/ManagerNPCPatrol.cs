@@ -160,7 +160,7 @@ namespace GGD
         {
             player.transform.position = new Vector3(0, 0, 0);
             indicator.SetActive(false);
-            player.SetInteracting(false);
+            player.NumInteractions--;
             sighted = false;
             OnEnter();
         }
@@ -187,7 +187,7 @@ namespace GGD
             if (collision.gameObject.tag == "Player" && timer <= 0)
             {
                 Debug.Log("Player found");
-                player.SetInteracting(true);
+                player.NumInteractions++;
                 sighted = true;
             }
         }
