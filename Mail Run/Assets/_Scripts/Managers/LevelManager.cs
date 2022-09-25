@@ -176,7 +176,7 @@ namespace GGD
 
             // Play transition animation
             // Fade out background/overlay (but on the tail end of the animation/effect)
-            _transitionBackground.DOFade(0f, _transitionDuration * 0.5f).SetDelay(_transitionDuration * 0.5f);
+            _transitionBackground.DOFade(0f, _transitionDuration * 0.2f).SetDelay(_transitionDuration * 0.8f);
 
             // Set random initial rotation for mask
             _transitionMask.rectTransform.localScale = Vector3.zero;
