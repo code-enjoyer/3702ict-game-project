@@ -21,9 +21,14 @@ namespace GGD
         protected override void Awake()
         {
             base.Awake();
-
             _stateController = GetComponent<StateController>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            _stateController.CurrentState.SendMessage("OnCollisionEnter", collision);
+            Debug.Log("Collision");
         }
     }
 }
