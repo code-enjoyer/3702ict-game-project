@@ -24,6 +24,8 @@ namespace GGD
         [SerializeField] private Image _transitionBackground;
         [SerializeField] private RectTransform _loadScreen;
         [SerializeField] private Image _progressFill;
+        public int objectivesRemaining;
+        public int objectivesDelivered;
 
 
         //private delegate bool BreadCrumbMethod();
@@ -40,6 +42,15 @@ namespace GGD
                 _spawnPoint = FindObjectOfType<SpawnPoint>();
         }
 
+        private void Start()
+        {
+            FindObjectives();
+        }
+
+        void FindObjectives()
+        {
+            objectivesRemaining = FindObjectsOfType<Objective>().Length;
+        }
         public Vector3 SpawnLocation
         {
             get

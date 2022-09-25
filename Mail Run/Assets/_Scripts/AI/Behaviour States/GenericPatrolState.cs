@@ -142,7 +142,7 @@ namespace GGD
             if (collision.gameObject.CompareTag("Player") && timer <= 0)
             {
                 Debug.Log("Player found");
-                player.SetInteracting(true);
+                player.NumInteractions++;
                 Owner.SetState(_harassState);
             }
         }
