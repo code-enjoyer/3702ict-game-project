@@ -28,5 +28,14 @@ namespace GGD
                 _NPC.StateController.SetState(_NPC.StateController.LastState);
             }
         }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log(collision.gameObject.name);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                OnEnter();
+            }
+        }
     }
 }

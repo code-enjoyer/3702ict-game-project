@@ -20,8 +20,8 @@ namespace GGD
             player = GameManager.Instance.Player.GetComponent<PlayerController>();
             _NPC.NavMeshAgent.SetDestination(player.transform.position);
 
-            player.SetInteracting(true);
-            _NPC.SetInteracting(true);
+            player.NumInteractions++;
+            _NPC.NumInteractions++;
             player.SetIsControllable(false);
 
             press = clicks;
@@ -46,17 +46,12 @@ namespace GGD
             {
                 cube.SetActive(false);
                 indicator.SetActive(false);
-                player.SetInteracting(false);
-                _NPC.SetInteracting(false);
+                player.NumInteractions--;
+                _NPC.NumInteractions--; ;
                 player.SetIsControllable(true);
                 //TODO player can move
                 _NPC.StateController.SetState(_patrolState);
             }
-        }
-
-        public void OnCollisionEnter(Collision collision)
-        {
-          
         }
     }
 }
