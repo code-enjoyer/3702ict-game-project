@@ -6,25 +6,22 @@ namespace GGD
 {
     public class Objective : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        [SerializeField] private GameObject _indicator;
+        [SerializeField] private GameObject _package;
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        public bool delivered = false;
 
         private void OnTriggerEnter(Collider collider)
         {
-            if(collider.CompareTag("Player"))
+            if(collider.CompareTag("Player") && !delivered)
             {
                 LevelManager.Instance.objectivesDelivered++;
                 LevelManager.Instance.objectivesRemaining--;
-                Destroy(gameObject);
+                _indicator.SetActive(false);
+                _package.SetActive(true);
+                _package.transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(-90f, 90f), 0f));
+                delivered = true;
+                // Destroy(gameObject);
             }
         }
     }
