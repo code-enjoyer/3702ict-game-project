@@ -16,10 +16,8 @@ namespace GGD
         [SerializeField] GameState _playingState;
         [SerializeField] GameState _pausedState;
 
-
-        // TODO: reference the "player" class instead of GameObject
-        private PlayerController _player;
         private StateController _stateController;
+        private PlayerController _player;
 
         /// <summary>
         /// A reference to the player object (if it exists).

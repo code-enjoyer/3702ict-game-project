@@ -61,7 +61,7 @@ namespace GGD
 
             if (_isPersistant)
             {
-                DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(transform.root.gameObject);
             }
 
             _isInitialized = true;

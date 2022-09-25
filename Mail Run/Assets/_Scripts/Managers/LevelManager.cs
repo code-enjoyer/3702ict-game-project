@@ -42,7 +42,7 @@ namespace GGD
 
         private void Start()
         {
-            if (_spawnPoint == null && GameManager.Instance.Player != null)
+            if (_spawnPoint == null && GameManager.IsInitialized && GameManager.Instance.Player != null)
             {
                 _spawnPoint = new GameObject("Spawn Point").AddComponent<SpawnPoint>();
                 _spawnPoint.transform.position = GameManager.Instance.Player.transform.position;
@@ -61,6 +61,11 @@ namespace GGD
                 else
                     return _spawnPoint.transform.position;
             }
+        }
+
+        public static void GoToLevelStatic(string levelName, bool animateOut, bool animateIn)
+        {
+            Instance.GoToLevel(levelName, animateOut, animateIn);
         }
 
         public void GoToLevel(string levelName, bool animateOut, bool animateIn)
@@ -116,6 +121,8 @@ namespace GGD
             // TRANSITION IN CO
             if (animateIn)
                 yield return StartCoroutine(TransitionInCo());
+            else
+                _transitionBackground.gameObject.SetActive(false);
 
             // Set GameManager state to playing
         }
