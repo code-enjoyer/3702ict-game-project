@@ -40,6 +40,15 @@ namespace GGD
                 _spawnPoint = FindObjectOfType<SpawnPoint>();
         }
 
+        private void Start()
+        {
+            if (_spawnPoint == null && GameManager.Instance.Player != null)
+            {
+                _spawnPoint = new GameObject("Spawn Point").AddComponent<SpawnPoint>();
+                _spawnPoint.transform.position = GameManager.Instance.Player.transform.position;
+            }
+        }
+
         public Vector3 SpawnLocation
         {
             get
