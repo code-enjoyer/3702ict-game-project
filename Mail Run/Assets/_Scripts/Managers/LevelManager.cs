@@ -15,7 +15,7 @@ namespace GGD
     /// </summary>
     public class LevelManager : Singleton<LevelManager>
     {
-        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private SpawnPoint _spawnPoint;
 
         [Header("Level Transitions")]
         [SerializeField] private float _transitionDuration = 3f;
@@ -37,11 +37,7 @@ namespace GGD
 
             // TODO: Because this is persistant, will only get the spawn point from the first level, will need to re-get after each scene load
             if (_spawnPoint == null)
-            {
-                GameObject go = GameObject.FindGameObjectWithTag("SpawnPoint");
-                if (go != null)
-                    _spawnPoint = go.transform;
-            }
+                _spawnPoint = FindObjectOfType<SpawnPoint>();
         }
 
         public Vector3 SpawnLocation
@@ -54,13 +50,33 @@ namespace GGD
                     return transform.position;
                 }
                 else
-                    return _spawnPoint.position;
+                    return _spawnPoint.transform.position;
             }
+        }
+
+        public void GoToLevel(string levelName, bool animateOut, bool animateIn)
+        {
+            StartCoroutine(GoToLevelCo(levelName, animateOut, animateIn));
         }
 
         public void GoToLevel(string levelName)
         {
-            StartCoroutine(GoToLevelCo(levelName));
+            GoToLevel(levelName, true, true);
+        }
+
+        public void GoToLevelNoFadeOut(string levelName)
+        {
+            GoToLevel(levelName, false, true);
+        }
+
+        public void GoToLevelNoFadeIn(string levelName)
+        {
+            GoToLevel(levelName, true, false);
+        }
+
+        public void GoToLevelNoFade(string levelName)
+        {
+            GoToLevel(levelName, false, false);
         }
 
         // NOTE: Not sure if this is even needed...
@@ -69,12 +85,13 @@ namespace GGD
             GoToLevel(SceneManager.GetActiveScene().name);
         }
 
-        private IEnumerator GoToLevelCo(string levelName)
+        private IEnumerator GoToLevelCo(string levelName, bool animateOut = true, bool animateIn = true)
         {
             // Set GameManager state to paused
 
             // TRANSITION OUT CO
-            yield return StartCoroutine(TransitionOutCo());
+            if (animateOut)
+                yield return StartCoroutine(TransitionOutCo());
 
             AsyncOperation scene = SceneManager.LoadSceneAsync("Loading");
             
@@ -88,7 +105,8 @@ namespace GGD
             yield return StartCoroutine(LoadLevelCo(levelName));
 
             // TRANSITION IN CO
-            yield return StartCoroutine(TransitionInCo());
+            if (animateIn)
+                yield return StartCoroutine(TransitionInCo());
 
             // Set GameManager state to playing
         }
