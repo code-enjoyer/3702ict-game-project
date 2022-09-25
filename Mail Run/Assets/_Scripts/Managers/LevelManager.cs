@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UltEvents;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -27,6 +28,8 @@ namespace GGD
         public int objectivesRemaining;
         public int objectivesDelivered;
 
+        public UltEvent OnBeforeLevelUnloaded;
+        public UltEvent OnLevelLoaded;
 
         //private delegate bool BreadCrumbMethod();
         //private List<BreadCrumbMethod> _onLevelLoadChain = new();
@@ -44,19 +47,29 @@ namespace GGD
 
         private void Start()
         {
-            if (_spawnPoint == null && GameManager.IsInitialized && GameManager.Instance.Player != null)
+            FindObjectives();
+            FindSpawnPoint();
+
+            OnLevelLoaded += FindObjectives;
+            OnLevelLoaded += FindSpawnPoint;
+        }
+
+        private void FindObjectives()
+        {
+            objectivesRemaining = FindObjectsOfType<Objective>().Length;
+        }
+
+        private void FindSpawnPoint()
+        {
+            _spawnPoint = FindObjectOfType<SpawnPoint>();
+            if (_spawnPoint == null && GameManager.Instance.Player != null)
             {
                 _spawnPoint = new GameObject("Spawn Point").AddComponent<SpawnPoint>();
                 _spawnPoint.transform.position = GameManager.Instance.Player.transform.position;
             }
-
-            FindObjectives();
         }
 
-        void FindObjectives()
-        {
-            objectivesRemaining = FindObjectsOfType<Objective>().Length;
-        }
+
         public Vector3 SpawnLocation
         {
             get
@@ -115,6 +128,8 @@ namespace GGD
             if (animateOut)
                 yield return StartCoroutine(TransitionOutCo());
 
+            OnBeforeLevelUnloaded.Invoke();
+
             AsyncOperation scene = SceneManager.LoadSceneAsync("Loading");
             
             // LOAD SCREEN
@@ -125,6 +140,8 @@ namespace GGD
 
             // LOAD LEVEL CO
             yield return StartCoroutine(LoadLevelCo(levelName));
+
+            OnLevelLoaded.Invoke();
 
             // TRANSITION IN CO
             if (animateIn)

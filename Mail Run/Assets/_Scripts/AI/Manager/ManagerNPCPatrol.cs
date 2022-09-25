@@ -51,7 +51,7 @@ namespace GGD
             timer -= deltaTime;
             if (timer > 0)
             {
-                Debug.Log("On cooldown");
+                // Debug.Log("On cooldown");
             }
             // TODO: Use a variable for "effective" stopping distance
             if (_NPC.NavMeshAgent.remainingDistance < 1f)
@@ -106,7 +106,7 @@ namespace GGD
                 _NPC.NavMeshAgent.SetDestination(transform.position);
                 timer2 -= deltaTime;
                 if(timer2 <= 0)
-                    caught();
+                    Caught();
             }
         }
 
@@ -118,14 +118,14 @@ namespace GGD
 
         private void OnValidate()
         {
-            if (_waypoints.Length == 0)
-            {
-                Debug.LogWarning("[GenericPatrolState] No transforms in the waypoints array!", gameObject);
-            }
-            else if (_waypoints.Any(x => x == null))
-            {
-                Debug.LogWarning("[GenericPatrolState] There are null transforms in the waypoints array!", gameObject);
-            }
+            //if (_waypoints.Length == 0)
+            //{
+            //    Debug.LogWarning("[GenericPatrolState] No transforms in the waypoints array!", gameObject);
+            //}
+            //else if (_waypoints.Any(x => x == null))
+            //{
+            //    Debug.LogWarning("[GenericPatrolState] There are null transforms in the waypoints array!", gameObject);
+            //}
         }
 
         void LineOfSight()
@@ -162,9 +162,9 @@ namespace GGD
             }
         }
 
-        void caught()
+        void Caught()
         {
-            player.transform.position = new Vector3(0, 0, 0);
+            player.transform.position = LevelManager.Instance.SpawnLocation;
             indicator.SetActive(false);
             player.NumInteractions--;
             sighted = false;

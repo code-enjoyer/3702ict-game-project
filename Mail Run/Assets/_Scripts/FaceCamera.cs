@@ -15,7 +15,10 @@ namespace GGD
         // Update is called once per frame
         void Update()
         {
-            transform.LookAt(Camera.main.transform.position, Vector3.up);
+            Vector3 camPos = Camera.main.transform.position;
+            camPos.y = transform.position.y;
+            transform.LookAt(camPos, Vector3.up);
+            //transform.rotation = Quaternion.LookRotation(-Camera.main.transform.forward);
         }
     }
 }

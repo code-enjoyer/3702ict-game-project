@@ -545,8 +545,8 @@ MonoBehaviour:
   - {fileID: 0}
   _idleState: {fileID: 8940794716076219945}
   _harassState: {fileID: 8940794717054928034}
-  los: 3
-  fov: 45
+  los: 7
+  fov: 55
   mask:
     serializedVersion: 2
     m_Bits: 1
@@ -802,7 +802,7 @@ NavMeshAgent:
   m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 180
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -842,7 +842,7 @@ MonoBehaviour:
   _onInteract:
     m_PersistentCalls:
       m_Calls: []
-  _displayName: PLACEHOLDER
+  _displayName: Mr Big
 --- !u!114 &8940794717949505065
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -39,7 +39,7 @@ namespace GGD
             if (Input.GetButtonDown("Fire1"))
             {
                 press--;
-                Debug.Log(press);
+                // Debug.Log(press);
             }
 
             if (press <= 0)
