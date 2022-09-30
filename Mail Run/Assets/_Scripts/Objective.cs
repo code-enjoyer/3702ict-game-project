@@ -15,7 +15,7 @@ namespace GGD
         {
             if(collider.CompareTag("Player") && !delivered)
             {
-                LevelManager.Instance.objectivesDelivered++;
+                LevelManager.Instance.ObjectivesDelivered++;
                 LevelManager.Instance.objectivesRemaining--;
                 _indicator.SetActive(false);
                 _package.SetActive(true);

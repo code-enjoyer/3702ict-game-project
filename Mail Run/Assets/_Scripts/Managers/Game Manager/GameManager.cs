@@ -25,6 +25,7 @@ namespace GGD
         /// </summary>
         public PlayerController Player => _player;
 
+        public GameState CurrentState => _stateController.CurrentState as GameState;
         public GameState PlayingState => _playingState;
         public GameState PausedState => _pausedState;
 
@@ -41,7 +42,7 @@ namespace GGD
             _stateController = GetComponent<StateController>();
         }
 
-        public void SetState(GameState state)
+        public void SetState(BehaviourState state)
         {
             _stateController.SetState(state);
         }

@@ -31,7 +31,7 @@ namespace GGD
         protected override void OnEnter()
         {
             _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
-            player = GameManager.Instance.Player.GetComponent<PlayerController>();
+            player = GameManager.Instance.Player?.GetComponent<PlayerController>();
 
             if (!(_NPC.StateController.LastState == _idleState))
                 timer = coolDown;
@@ -97,7 +97,7 @@ namespace GGD
         {
             RaycastHit hit;
 
-            Vector3 direction = player.transform.position - transform.position;
+            // Vector3 direction = player.transform.position - transform.position;
 
             //if(Physics.Raycast(eyes.transform.position + (Vector3.left * 0.2f), direction, out hit, los))
             Collider[] items = Physics.OverlapSphere(eyes.transform.position, los, mask);

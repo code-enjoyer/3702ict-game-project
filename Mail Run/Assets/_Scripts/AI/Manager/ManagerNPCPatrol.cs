@@ -40,7 +40,7 @@ namespace GGD
         protected override void OnEnter()
         {
             _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
-            player = GameManager.Instance.Player.GetComponent<PlayerController>();
+            player = GameManager.Instance.Player?.GetComponent<PlayerController>();
             timer2 = delay;
             if (!(_NPC.StateController.LastState == _idleState))
                 timer = coolDown;

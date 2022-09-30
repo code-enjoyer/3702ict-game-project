@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UltEvents;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,8 +26,19 @@ namespace GGD
         [SerializeField] private Image _transitionBackground;
         [SerializeField] private RectTransform _loadScreen;
         [SerializeField] private Image _progressFill;
+        public int totalObjectives;
         public int objectivesRemaining;
-        public int objectivesDelivered;
+        private int _objectivesDelivered;
+        public int ObjectivesDelivered
+        {
+            get => _objectivesDelivered;
+            set
+            {
+                _objectivesDelivered = value;
+                ScoreTracker.Instance?.UpdateObjectivesUI();
+            }
+        }
+        public float timeTaken;
 
         public UltEvent OnBeforeLevelUnloaded;
         public UltEvent OnLevelLoaded;
@@ -52,11 +64,49 @@ namespace GGD
 
             OnLevelLoaded += FindObjectives;
             OnLevelLoaded += FindSpawnPoint;
+            OnLevelLoaded += () => { timeTaken = 0f; };
+        }
+
+        // DEBUG
+        private Queue<IEnumerator> _currentActions = new();
+        // DEBUG
+        private Coroutine _actionExecutionCo;
+
+        // DEBUG: Testing chaining coroutines together to create dynamic game flow. Will hopefully allow for logic execution to wait for animation and/or user input.
+        private IEnumerator ExecuteCurrentActionsCo()
+        {
+            while (_currentActions.Count > 0)
+            {
+                yield return StartCoroutine(_currentActions.Dequeue());
+            }
+
+            _actionExecutionCo = null;
+        }
+
+        public void EnqueueCoroutine(IEnumerator routine)
+        {
+            _currentActions.Enqueue(routine);
+        }
+
+        private void Update()
+        {
+            if (GameManager.IsInitialized && GameManager.Instance.CurrentState == GameManager.Instance.PlayingState)
+            {
+                timeTaken += Time.deltaTime;
+                ScoreTracker.Instance?.UpdateTimeUI();
+            }
+
+            // DEBUG
+            if (_actionExecutionCo == null && _currentActions.Count > 0)
+            {
+                _actionExecutionCo = StartCoroutine(ExecuteCurrentActionsCo());
+            }
         }
 
         private void FindObjectives()
         {
-            objectivesRemaining = FindObjectsOfType<Objective>().Length;
+            totalObjectives = FindObjectsOfType<Objective>().Length;
+            objectivesRemaining = totalObjectives;
         }
 
         private void FindSpawnPoint()
@@ -82,6 +132,19 @@ namespace GGD
                 else
                     return _spawnPoint.transform.position;
             }
+        }
+
+        // NOTE: Not sure if the non-static methods are needed or would be used...
+        public static void EndLevelStatic()
+        {
+            Instance.EndLevel();
+        }
+
+        public void EndLevel()
+        {
+            // GameState to paused
+            // Cleanup / stop any things that need stopping
+            // Display end level UI
         }
 
         public static void GoToLevelStatic(string levelName, bool animateOut, bool animateIn)
