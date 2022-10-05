@@ -15,12 +15,13 @@ namespace GGD
 
         public void Alert()
         {
-            _animator.SetTrigger("Alert");
+            // _animator.SetTrigger("Alerted"); // Not working properly? (animator BS and exit times methinks)
+            _animator.CrossFade("Alert", 0.1f);
         }
         
         public void UpdateValues(float speed)
         {
-            _animator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
+            _animator.SetFloat("Speed", speed);
         }
     }
 }
