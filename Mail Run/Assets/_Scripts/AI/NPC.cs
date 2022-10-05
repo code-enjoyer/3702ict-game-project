@@ -28,6 +28,7 @@ namespace GGD
         private void Update()
         {
             _stateController.UpdateActive = IsActive;
+            Animator.UpdateValues(_navMeshAgent.velocity.magnitude / _navMeshAgent.speed);
         }
 
         private void OnCollisionEnter(Collision collision)

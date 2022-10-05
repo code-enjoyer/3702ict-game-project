@@ -9,6 +9,7 @@ namespace GGD
     {
         [SerializeField] private UnityEvent _onInteract;
 
+        private CharacterAnimator _animator;
         private Rigidbody _rigidbody;
         private bool _isInteracting = false;
         private bool _isActive = true;
@@ -19,19 +20,26 @@ namespace GGD
             get => _numInteractions;
             set
             {
+                if (_numInteractions <= 0 && value > 0)
+                {
+                    // Set Alert
+                    _animator.Alert();
+                }
                 _numInteractions = value;
                 _isInteracting = _numInteractions > 0;
             }
         }
         public Rigidbody Rigidbody => _rigidbody;
         public Vector3 Velocity => _rigidbody.velocity;
-        public bool IsInteracting => _isInteracting;
+        public bool IsInteracting => _isInteracting; // Not sure if still needed as we're using the number of interactions for the same effect.
         public virtual bool IsDetectable => true;
         public bool IsActive => _isActive;
+        public CharacterAnimator Animator => _animator;
 
         protected virtual void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _animator = GetComponentInChildren<CharacterAnimator>();
         }
 
         public void SetInteracting(bool value, bool raiseEvent = true)

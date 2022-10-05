@@ -31,11 +31,17 @@ namespace GGD
         {
             HandleInput();
             HandleRotation();
+            HandleAnimation();
         }
 
         private void FixedUpdate()
         {
             HandleMovement();
+        }
+
+        private void HandleAnimation()
+        {
+            Animator.UpdateValues(Rigidbody.velocity.magnitude / _baseSpeed);
         }
 
         private void HandleInput()

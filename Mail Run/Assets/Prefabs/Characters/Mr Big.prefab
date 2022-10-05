@@ -124,6 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2927204645592053264}
   - component: {fileID: 2511175899857632340}
+  - component: {fileID: 2884804904858109690}
   m_Layer: 0
   m_Name: MrBig
   m_TagString: Untagged
@@ -169,6 +170,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2884804904858109690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2581782705755876522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b262b89c1c71d0f42b82b31c36c336a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2803205422952070861
 GameObject:
   m_ObjectHideFlags: 0
