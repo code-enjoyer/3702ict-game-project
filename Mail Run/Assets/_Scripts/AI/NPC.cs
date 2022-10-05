@@ -25,10 +25,20 @@ namespace GGD
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
+        private void Update()
+        {
+            _stateController.UpdateActive = IsActive;
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             _stateController.CurrentState.SendMessage("OnCollisionEnter", collision);
             Debug.Log("Collision");
+        }
+
+        public override void SetActive(bool value, float duration = 0)
+        {
+            base.SetActive(value, duration);
         }
     }
 }

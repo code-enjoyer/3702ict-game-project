@@ -11,6 +11,7 @@ namespace GGD
 
         private Rigidbody _rigidbody;
         private bool _isInteracting = false;
+        private bool _isActive = true;
 
         private int _numInteractions;
         public int NumInteractions
@@ -26,6 +27,7 @@ namespace GGD
         public Vector3 Velocity => _rigidbody.velocity;
         public bool IsInteracting => _isInteracting;
         public virtual bool IsDetectable => true;
+        public bool IsActive => _isActive;
 
         protected virtual void Awake()
         {
@@ -40,5 +42,21 @@ namespace GGD
                 _onInteract?.Invoke();
             }
         }
+
+        public virtual void SetActive(bool value, float duration = 0f)
+        {
+            _isActive = value;
+
+            if (duration > 0f)
+            {
+                StartCoroutine(ResetActive(duration));
+            }
+        }
+
+        private IEnumerator ResetActive(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            _isActive = !_isActive;
+        }    
     }
 }

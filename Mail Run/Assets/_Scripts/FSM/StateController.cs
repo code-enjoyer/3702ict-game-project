@@ -15,9 +15,13 @@ namespace GGD
 
         private BehaviourState _currentState;
         private BehaviourState _lastState;
+        private bool _updateActive = true;
+        private bool _fixedUpdateActive = true;
 
         public BehaviourState CurrentState => _currentState;
         public BehaviourState LastState => _lastState;
+        public bool UpdateActive { get => _updateActive; set => _updateActive = value; }
+        public bool FixedUpdateActive { get => _fixedUpdateActive; set => _fixedUpdateActive = value; }
 
         /// <summary>
         /// Used for initializing references.
@@ -53,6 +57,9 @@ namespace GGD
         /// </summary>
         protected virtual void Update()
         {
+            if (!_updateActive)
+                return;
+
             UpdateCurrentState(Time.deltaTime);
         }
 
@@ -63,6 +70,9 @@ namespace GGD
         /// </summary>
         protected virtual void FixedUpdate()
         {
+            if (!_fixedUpdateActive)
+                return;
+
             FixedUpdateCurrentState(Time.fixedDeltaTime);
         }
 
