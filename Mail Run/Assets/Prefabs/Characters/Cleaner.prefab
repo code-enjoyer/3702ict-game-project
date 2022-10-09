@@ -232,7 +232,7 @@ MonoBehaviour:
   _onExit:
     _PersistentCalls: []
   _idleTimeMin: 2
-  _idleTimeMax: 10
+  _idleTimeMax: 3
   puddle: {fileID: 3248388783417580241, guid: 81e137142048bf64985a287b38c83bce, type: 3}
 --- !u!1 &4786303285045720452
 GameObject:
@@ -331,7 +331,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
-  m_Speed: 2.5
+  m_Speed: 1.8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 180
@@ -480,7 +480,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 1
-  coolDown: 3
+  coolDown: 4
   eyes: {fileID: 538755488}
 --- !u!1 &4942719351204398879
 GameObject:

@@ -61,7 +61,11 @@ namespace GGD
             if (collision.gameObject.tag == "Player")
             {
                 Debug.Log("Player found");
-                collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * forceApplied, ForceMode.Impulse);
+                Vector3 direction = collision.transform.position - transform.position;
+                direction.y = 0f;
+                direction.Normalize();
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(direction * forceApplied, ForceMode.Impulse);
+                _NPC.StateController.SetState(_patrolState);
             }
 
             //TODO collision with cart force

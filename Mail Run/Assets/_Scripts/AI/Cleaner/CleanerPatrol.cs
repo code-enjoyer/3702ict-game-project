@@ -34,10 +34,6 @@ namespace GGD
         public override void ExecuteUpdate(float deltaTime)
         {
             timer -= deltaTime;
-            if (timer > 0)
-            {
-                // Debug.Log("On cooldown");
-            }
             // TODO: Use a variable for "effective" stopping distance
             if (_NPC.NavMeshAgent.remainingDistance < 1f)
             {
@@ -64,7 +60,7 @@ namespace GGD
 
                 _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             }
-            if (Random.value <= 0.001f)
+            if (timer <= 0f)
             {
                 Owner.SetState(_idleState);
             }

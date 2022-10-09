@@ -23,7 +23,7 @@ namespace GGD
 
         public void UpdateScoreUI()
         {
-
+            // TODO: Finish score system first
         }
     }
 }
