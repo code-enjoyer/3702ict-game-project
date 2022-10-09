@@ -16,6 +16,7 @@ namespace GGD
 
         [SerializeField] private PatrolMethod _patrolMethod = PatrolMethod.PingPong;
         [SerializeField] private Transform[] _waypoints = new Transform[1];
+        [SerializeField] private List<float> _waitTimes = new List<float>();
         [SerializeField] private BehaviourState _idleState;
         [SerializeField] private float los = 3;
         [SerializeField] private float fov = 45;
@@ -32,6 +33,7 @@ namespace GGD
         private bool sighted;
         private int _currentWaypointIndex = 0;
         private bool idle;
+        private bool _waited;
         PlayerController player;
         Character person;
         [SerializeField] private GameObject eyes;
@@ -54,8 +56,14 @@ namespace GGD
                 // Debug.Log("On cooldown");
             }
             // TODO: Use a variable for "effective" stopping distance
-            if (_NPC.NavMeshAgent.remainingDistance < 1f)
+            if (!idle && _NPC.NavMeshAgent.remainingDistance < 0.5f)
             {
+                if (_waitTimes[_currentWaypointIndex] > 0f)
+                {
+                    idle = true;
+                    _idleTimer = _waitTimes[_currentWaypointIndex];
+                }
+
                 _currentWaypointIndex += _waypointDirection ? 1 : -1;
 
                 switch (_patrolMethod)
@@ -80,20 +88,20 @@ namespace GGD
                 _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             }
 
-            if (Random.value <= 0.0001f && !(idle))
-            {
-                _idleTimer = Random.Range(_idleTimeMin, _idleTimeMax);
-                idle = true;
-            }
+            //if (Random.value <= 0.0001f && !(idle))
+            //{
+            //    _idleTimer = Random.Range(_idleTimeMin, _idleTimeMax);
+            //    idle = true;
+            //}
 
             if(idle)
             {
+                _idleTimer -= deltaTime;
+
                 if (_idleTimer > 0)
                     Idle();
                 else
                     idle = false;
-
-                _idleTimer -= deltaTime;
             }
 
             if(timer <= 0f)
@@ -126,6 +134,15 @@ namespace GGD
             //{
             //    Debug.LogWarning("[GenericPatrolState] There are null transforms in the waypoints array!", gameObject);
             //}
+
+            while (_waitTimes.Count < _waypoints.Length)
+            {
+                _waitTimes.Add(0f);
+            }
+            while (_waitTimes.Count > _waypoints.Length)
+            {
+                _waitTimes.RemoveAt(_waitTimes.Count - 1);
+            }
         }
 
         void LineOfSight()

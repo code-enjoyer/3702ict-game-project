@@ -16,6 +16,7 @@ namespace GGD
 
         [SerializeField] private PatrolMethod _patrolMethod = PatrolMethod.PingPong;
         [SerializeField] private Transform[] _waypoints = new Transform[1];
+        [SerializeField] private List<float> _waitTimes = new List<float>();
         [SerializeField] private BehaviourState _idleState;
         [SerializeField] private BehaviourState _harassState;
         [SerializeField] private float los = 3;
@@ -27,6 +28,8 @@ namespace GGD
         private bool _waypointDirection = true; // True means ascending, false means descending - used for ping-pong patrol method.
         PlayerController player;
         [SerializeField] private GameObject eyes;
+        private bool idle = false;
+        private float _idleTimer = 0f;
 
         protected override void OnEnter()
         {
@@ -45,8 +48,13 @@ namespace GGD
                 // Debug.Log("On cooldown");
             }
             // TODO: Use a variable for "effective" stopping distance
-            if (_NPC.NavMeshAgent.remainingDistance < 1f)
+            if (!idle && _NPC.NavMeshAgent.remainingDistance < 0.5f)
             {
+                if (_waitTimes[_currentWaypointIndex] > 0f)
+                {
+                    idle = true;
+                    _idleTimer = _waitTimes[_currentWaypointIndex];
+                }
                 _currentWaypointIndex += _waypointDirection ? 1 : -1;
 
                 switch (_patrolMethod)
@@ -70,12 +78,19 @@ namespace GGD
 
                 _NPC.NavMeshAgent.SetDestination(_waypoints[_currentWaypointIndex].position);
             }
-            if (Random.value <= 0.0001f)
+
+            if (idle)
             {
-                _NPC.StateController.SetState(_idleState);
+                _idleTimer -= deltaTime;
+
+                if (_idleTimer > 0)
+                    NPC.NavMeshAgent.SetDestination(transform.position);
+                else
+                    idle = false;
+
             }
 
-            if(LineOfSight() && timer <= 0f)
+            if (timer <= 0f && LineOfSight())
             {
                 Owner.SetState(_harassState);
             }
@@ -91,6 +106,15 @@ namespace GGD
             //{
             //    Debug.LogWarning("[GenericPatrolState] There are null transforms in the waypoints array!", gameObject);
             //}
+
+            while (_waitTimes.Count < _waypoints.Length)
+            {
+                _waitTimes.Add(0f);
+            }
+            while (_waitTimes.Count > _waypoints.Length)
+            {
+                _waitTimes.RemoveAt(_waitTimes.Count - 1);
+            }
         }
 
         bool LineOfSight()
