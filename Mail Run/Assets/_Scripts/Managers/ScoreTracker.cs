@@ -13,7 +13,7 @@ namespace GGD
 
         public void UpdateObjectivesUI(int delivered, int total)
         {
-            _objectivesText.text = $"Objectives: {delivered}/{total}";
+            _objectivesText.text = $"Packages: {delivered}/{total}";
         }
 
         public void UpdateTimeUI(float timeTaken)

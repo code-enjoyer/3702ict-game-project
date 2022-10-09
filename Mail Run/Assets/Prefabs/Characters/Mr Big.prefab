@@ -846,7 +846,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 1
-  coolDown: 3
+  coolDown: 2
   eyes: {fileID: 1682388739}
 --- !u!1 &8940794716849021609
 GameObject:
@@ -931,8 +931,8 @@ MonoBehaviour:
   _onExit:
     _PersistentCalls: []
   _patrolState: {fileID: 8940794716838216533}
-  chaseSpeedMultiplier: 2
-  followTime: 5
+  chaseSpeedMultiplier: 2.5
+  followTime: 3
   forceApplied: 15
   indicator: {fileID: 8940794716522150666}
 --- !u!1 &8940794717949505056
@@ -999,7 +999,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
-  m_Speed: 2.2
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 180

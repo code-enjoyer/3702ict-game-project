@@ -124,5 +124,10 @@ namespace GGD
         {
             _speedMultiplier *= multi;
         }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.Player = null;
+        }
     }
 }

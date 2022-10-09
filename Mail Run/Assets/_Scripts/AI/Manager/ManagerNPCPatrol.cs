@@ -149,8 +149,6 @@ namespace GGD
         {
             RaycastHit hit;
 
-            Vector3 direction = player.transform.position - transform.position;
-
             //if(Physics.Raycast(eyes.transform.position + (Vector3.left * 0.2f), direction, out hit, los))
             Collider[] items = Physics.OverlapSphere(eyes.transform.position, los, mask);
 

@@ -4343,12 +4343,12 @@ PrefabInstance:
     - target: {fileID: 4745262849686579840, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
         type: 3}
       propertyPath: _waitTimes.Array.data[0]
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745262849686579840, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
         type: 3}
       propertyPath: _waitTimes.Array.data[1]
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745262849686579840, guid: c69d32ee825a2cf46b005ed2e2a0f5bc,
         type: 3}

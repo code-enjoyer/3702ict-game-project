@@ -30,6 +30,9 @@ namespace GGD
         protected override void OnExit()
         {
             _NPC.NavMeshAgent.speed = _lastMoveSpeed;
+            indicator.SetActive(false);
+            player.NumInteractions--;
+            _NPC.NumInteractions--;
         }
 
         public override void ExecuteUpdate(float deltaTime)
@@ -47,9 +50,6 @@ namespace GGD
 
             if (timer <= 0f)
             {
-                indicator.SetActive(false);
-                player.NumInteractions--;
-                _NPC.NumInteractions--;
               //  _NPC.NavMeshAgent.updateRotation = true;
                 _NPC.StateController.SetState(_patrolState);
             }

@@ -40,6 +40,7 @@ namespace GGD
             }
         }
         public float timeTaken;
+        private bool _updating = true;
 
         public UltEvent OnBeforeLevelUnloaded;
         public UltEvent OnLevelLoaded;
@@ -54,9 +55,8 @@ namespace GGD
             FindObjectives();
             FindSpawnPoint();
 
-            OnLevelLoaded += FindObjectives;
-            OnLevelLoaded += FindSpawnPoint;
-            OnLevelLoaded += () => { timeTaken = 0f; };
+            OnLevelLoaded += ResetValues;
+            OnLevelLoaded += DelayLevelStart;
         }
 
         // DEBUG
@@ -80,8 +80,39 @@ namespace GGD
             _currentActions.Enqueue(routine);
         }
 
+        private void ResetValues()
+        {
+            _objectivesDelivered = 0;
+            timeTaken = 0f;
+        }
+
+        private void DelayLevelStart()
+        {
+            StartCoroutine(DelayLevelStartCo());
+        }
+
+        private IEnumerator DelayLevelStartCo()
+        {
+            _updating = false;
+
+            yield return new WaitForSeconds(1f);
+
+            _updating = true;
+            FindSpawnPoint();
+            FindObjectives();
+        }
+
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (SceneManager.GetActiveScene().name != "Main Menu")
+                    GoToLevel("Main Menu", true, false);
+            }
+            
+            if (!_updating)
+                return;
+
             if (GameManager.IsInitialized && GameManager.Instance.CurrentState == GameManager.Instance.PlayingState)
             {
                 timeTaken += Time.deltaTime;

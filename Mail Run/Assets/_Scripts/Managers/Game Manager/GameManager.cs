@@ -23,7 +23,16 @@ namespace GGD
         /// A reference to the player object (if it exists).
         /// NOTE: Can be null.
         /// </summary>
-        public PlayerController Player => _player;
+        public PlayerController Player
+        {
+            get
+            {
+                if (_player == null)
+                    FindPlayer();
+                return _player;
+            }
+            set => _player = value;
+        }
 
         public GameState CurrentState => _stateController.CurrentState as GameState;
         public GameState PlayingState => _playingState;
@@ -35,11 +44,16 @@ namespace GGD
 
             // Initialize references
             // TODO: Swap to FindGameObjectOfType<T>() when player class is made?
+            FindPlayer();
+
+            _stateController = GetComponent<StateController>();
+        }
+
+        public void FindPlayer()
+        {
             GameObject go = GameObject.FindGameObjectWithTag("Player");
             if (go != null)
                 _player = go.GetComponent<PlayerController>();
-
-            _stateController = GetComponent<StateController>();
         }
 
         public void SetState(BehaviourState state)
