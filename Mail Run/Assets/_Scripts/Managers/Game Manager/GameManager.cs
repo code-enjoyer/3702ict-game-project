@@ -46,5 +46,10 @@ namespace GGD
         {
             _stateController.SetState(state);
         }
+
+        public void CloseGame()
+        {
+            Application.Quit();
+        }
     }
 }
