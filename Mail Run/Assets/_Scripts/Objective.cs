@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UltEvents;
 
 namespace GGD
 {
@@ -8,6 +9,7 @@ namespace GGD
     {
         [SerializeField] private GameObject _indicator;
         [SerializeField] private GameObject _package;
+        public UltEvent OnObjectiveDelivered;
 
         public bool delivered = false;
 
@@ -21,6 +23,7 @@ namespace GGD
                 _package.SetActive(true);
                 _package.transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(-90f, 90f), 0f));
                 delivered = true;
+                OnObjectiveDelivered?.Invoke();
                 // Destroy(gameObject);
             }
         }

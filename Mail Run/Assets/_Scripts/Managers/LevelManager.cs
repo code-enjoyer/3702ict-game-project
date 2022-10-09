@@ -35,7 +35,8 @@ namespace GGD
             set
             {
                 _objectivesDelivered = value;
-                ScoreTracker.Instance?.UpdateObjectivesUI();
+                if (ScoreTracker.IsInitialized)
+                    ScoreTracker.Instance.UpdateObjectivesUI(_objectivesDelivered, totalObjectives);
             }
         }
         public float timeTaken;
@@ -47,15 +48,6 @@ namespace GGD
         //private List<BreadCrumbMethod> _onLevelLoadChain = new();
         // e.g: _onLevelLoadChain.Add(() => { return true; });
         // How to make this work with functions? e.g. _onLevelLoadChain.Add(SomeFunction)?
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            // TODO: Because this is persistant, will only get the spawn point from the first level, will need to re-get after each scene load
-            if (_spawnPoint == null)
-                _spawnPoint = FindObjectOfType<SpawnPoint>();
-        }
 
         private void Start()
         {
@@ -93,7 +85,8 @@ namespace GGD
             if (GameManager.IsInitialized && GameManager.Instance.CurrentState == GameManager.Instance.PlayingState)
             {
                 timeTaken += Time.deltaTime;
-                ScoreTracker.Instance?.UpdateTimeUI();
+                if (ScoreTracker.IsInitialized)
+                    ScoreTracker.Instance.UpdateTimeUI(timeTaken);
             }
 
             // DEBUG
@@ -204,7 +197,7 @@ namespace GGD
             // LOAD LEVEL CO
             yield return StartCoroutine(LoadLevelCo(levelName));
 
-            OnLevelLoaded.Invoke();
+            OnLevelLoaded?.Invoke();
 
             // TRANSITION IN CO
             if (animateIn)

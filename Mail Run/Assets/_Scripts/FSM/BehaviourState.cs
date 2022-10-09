@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UltEvents;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,8 +9,8 @@ namespace GGD
 {
     public abstract class BehaviourState : MonoBehaviour
     {
-        [SerializeField] protected UnityEvent _onEnter;
-        [SerializeField] protected UnityEvent _onExit;
+        public UltEvent _onEnter;
+        public UltEvent _onExit;
 
         private StateController _owner;
         private bool _isInitialized = false;

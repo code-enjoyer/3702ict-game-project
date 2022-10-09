@@ -6,6 +6,7 @@ namespace GGD
 {
     public class CharacterAnimator : MonoBehaviour
     {
+        [SerializeField] private SoundPlayer _footstepPlayer;
         private Animator _animator;
 
         private void Awake()
@@ -22,6 +23,11 @@ namespace GGD
         public void UpdateValues(float speed)
         {
             _animator.SetFloat("Speed", speed);
+        }
+
+        public void PlayFootstepSound()
+        {
+            _footstepPlayer.PlayRandom();
         }
     }
 }

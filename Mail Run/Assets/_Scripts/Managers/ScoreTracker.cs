@@ -11,14 +11,14 @@ namespace GGD
         [SerializeField] private TMP_Text _timeText;
         [SerializeField] private TMP_Text _scoreText;
 
-        public void UpdateObjectivesUI()
+        public void UpdateObjectivesUI(int delivered, int total)
         {
-            _objectivesText.text = $"Objectives: {LevelManager.Instance.ObjectivesDelivered}/{LevelManager.Instance.totalObjectives}";
+            _objectivesText.text = $"Objectives: {delivered}/{total}";
         }
 
-        public void UpdateTimeUI()
+        public void UpdateTimeUI(float timeTaken)
         {
-            _timeText.text = $"Time: {LevelManager.Instance.timeTaken.ToString("0.0")} s";
+            _timeText.text = $"Time: {timeTaken : 0.0} s";
         }
 
         public void UpdateScoreUI()
