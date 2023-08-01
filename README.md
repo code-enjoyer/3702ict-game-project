@@ -2,6 +2,6 @@
  Game project made for our 3702ICT Game Development course at Griffith University.
  
  Team:
- * Anthony Le | s5260339
- * Callum Shanahan | s2970549
- * James Oates | s5299527
+ * Anthony Le
+ * Callum Shanahan
+ * James Oates
